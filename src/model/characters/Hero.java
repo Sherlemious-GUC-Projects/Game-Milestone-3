@@ -69,6 +69,21 @@ public abstract class Hero extends Character {
 		}
 
 
+		public void addVaccine(Vaccine v) {
+			this.vaccineInventory.add(v);
+		}
+
+		public void addSupply(Supply s) {
+			this.supplyInventory.add(s);
+		}
+
+		public void removeVaccine(Vaccine v) {
+			this.vaccineInventory.remove(v);
+		}
+
+		public void removeSupply(Supply s) {
+			this.supplyInventory.remove(s);
+		}
 
 		
 
