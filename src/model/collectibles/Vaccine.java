@@ -8,4 +8,12 @@ public class Vaccine implements Collectible {
 		
 	}
 
+	public pickUp(Hero h) {
+		h.vaccineInventory.add(this);
+	}
+
+	public void use(Hero h) {
+		h.vaccineInventory.remove(this);
+	}
+
 }
