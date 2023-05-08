@@ -1,4 +1,5 @@
 package model.collectibles;
+import model.characters.Hero;
 
 
 
@@ -8,12 +9,12 @@ public class Vaccine implements Collectible {
 		
 	}
 
-	public pickUp(Hero h) {
-		h.vaccineInventory.add(this);
+	public void pickUp(Hero h) {
+		h.addVaccine(this);
 	}
 
 	public void use(Hero h) {
-		h.vaccineInventory.remove(this);
+		h.removeVaccine(this);
 	}
 
 }
