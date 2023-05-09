@@ -3,3 +3,5 @@ List of Question
 1. how to implement "void pickUp(Hero h)" & "void use(Hero h)" in interface Collectable while variable "supplyList" & "vaccineList" are both read only in class "Hero"?
 	* author: oyg, date: 8/10/2023
 2. how can I get Omar's phone no. ＼（〇_ｏ）／.
+3. do zombies move?
+4. can zombies spawn on trapCells?
