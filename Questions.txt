@@ -5,4 +5,3 @@ List of Question
 2. how can I get Omar's phone no. ＼（〇_ｏ）／.
 3. do zombies move?
 4. can zombies spawn on trapCells?
-test 1,2,3
