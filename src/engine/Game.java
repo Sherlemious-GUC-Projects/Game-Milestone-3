@@ -23,8 +23,8 @@ public class Game {
 	public static ArrayList <Hero> availableHeroes = new ArrayList<Hero>();
 	public static ArrayList <Hero> heroes =  new ArrayList<Hero>();
 	public static ArrayList <Zombie> zombies =  new ArrayList<Zombie>();
-	
-	
+	public static ArrayList<Point> occupiedCells = new ArrayList<Point>();
+	public static ArrayList<Cell> grid = new ArrayList<Cell>();
 	
 		
 	public static void loadHeroes(String filePath)  throws IOException {
@@ -56,8 +56,7 @@ public class Game {
 		
 		
 	}
-	@org.jetbrains.annotations.Contract("_ -> new")
-	private static Point getAvailablePoint(ArrayList<Point> occupiedCells) {
+	private static Point getAvailablePoint() {
 		int RandomX = (int) (Math.random() * 15);
 		int RandomY = (int) (Math.random() * 15);
 		// Check if the cell is empty
@@ -68,9 +67,9 @@ public class Game {
 		return new Point(RandomX, RandomY);
 	}
 	public static void startGame(Hero h) {
+		// Initialize the map with empty cells, 15 x 15
 		heroes.add(h);
 		availableHeroes.remove(h);
-		ArrayList<Point> occupiedCells = new ArrayList<Point>();
 
 		// Add the hero to the map
 		h.setLocation(new Point(0, 0));
@@ -79,7 +78,7 @@ public class Game {
 		// Add 10 zombies randomly the map
 		for(int i=0; i < 10; i++) {
 			Zombie newZombie = new Zombie();
-			Point newPoint = getAvailablePoint(occupiedCells);
+			Point newPoint = getAvailablePoint();
 			occupiedCells.add(newPoint);
 			newZombie.setLocation(newPoint);
 			zombies.add(newZombie);
@@ -88,7 +87,7 @@ public class Game {
 		//TODO: Where should the trap location be added?
 		for(int i=0; i < 5; i++){
 			TrapCell newTrap = new TrapCell();
-			Point newPoint = getAvailablePoint(occupiedCells);
+			Point newPoint = getAvailablePoint();
 			occupiedCells.add(newPoint);
 //			newTrap.setLocation(newPoint);
 
@@ -99,7 +98,26 @@ public class Game {
 			h.addVaccine(new Vaccine());
 		}
 	}
+	public static boolean checkWin(){
+		return (heroes.size()>5 && zombies.size()==0);
+	}
 
+	public static boolean checkGameOver(){
+		return (heroes.size()==0);
+	}
+	public static void endTurn() {
+		// TODO: Allow all zombies to attack adjacent heroes
+		// TODO: Reset each hero’s actions, target, and special
+		// TODO: Update map visibility in the game such that only
+		//  cells adjacent to heroes are visible
+
+		// Spawn a random zombie
+		Zombie newZombie = new Zombie();
+		Point newPoint = getAvailablePoint();
+		occupiedCells.add(newPoint);
+		newZombie.setLocation(newPoint);
+		zombies.add(newZombie);
+	}
 
 
 }
