@@ -27,7 +27,8 @@ public class Game {
 	public static ArrayList <Hero> availableHeroes = new ArrayList<Hero>();
 	public static ArrayList <Hero> heroes =  new ArrayList<Hero>();
 	public static ArrayList <Zombie> zombies =  new ArrayList<Zombie>();
-		
+	public static int usedVaccinesCount = 0;
+
 	public static void loadHeroes(String filePath)  throws IOException {
 		
 		
@@ -155,28 +156,21 @@ public class Game {
 					Zombie z = (Zombie)(((CharacterCell) (map[j][i])).getCharacter());
 			    	z.attack();
 			    	z.setTarget(null);
-			    		  }
-				if(map[j][i] instanceof CharacterCell && ((CharacterCell) (map[j][i])).getCharacter() instanceof Hero){
-								Hero h = (Hero)(((CharacterCell) (map[j][i])).getCharacter());
-						    	h.setActionsAvailable(h.getMaxActions());
-						    	h.setSpecialAction(false);
-						    	h.setTarget(null);
-			    		  for(int m=-1;m<=1;m++){
-				    		  for(int n=-1;n<=1;n++ ){
-				    			  if((n+i>=0) && n+i<=14 &&(m+j>=0)&& m+j<=14)
-				    				  map[j+m][i+n].setVisible(true);
-				    	  }}}
-
 				}
-			               		  
+				if(map[j][i] instanceof CharacterCell && ((CharacterCell) (map[j][i])).getCharacter() instanceof Hero){
+					Hero h = (Hero)(((CharacterCell) (map[j][i])).getCharacter());
+					h.setActionsAvailable(h.getMaxActions());
+					h.setSpecialAction(false);
+					h.setTarget(null);
+					for(int m=-1;m<=1;m++){
+						for(int n=-1;n<=1;n++ ){
+							if((n+i>=0) && n+i<=14 &&(m+j>=0)&& m+j<=14) {
+								map[j + m][i + n].setVisible(true);
+							}
+						}
+					}
+				}
 			}
 		}
-	public Boolean isAdjacent(Point char1,Point char2){
-		int x1 =char1.x; int x2 = char2.x;
-		int y1 =char1.y; int y2 = char2.y;
-		return ((x1 == x2)&&((y2+1<=14)&&(y1 == y2 + 1)||((y2-1>=0)&&(y1 == y2 - 1)))||
-				((y1 == y2)&&((x2+1<=14)&&(x1 == x2 + 1)||((y2-1>=0)&&(x1 == x2 - 1))))||
-				((x2+1<=14)&&(x1 == x2+1)&&((y2+1<=14)&&(y1 == y2 + 1)||((y2-1>=0)&&(y1 == y2 - 1))))||
-				((x2-1>=0)&&(x1 == x2-1)&&((y2+1<=14)&&(y1 == y2 + 1)||((y2-1>=0)&&(y1 == y2 - 1)))));
 	}
 }
