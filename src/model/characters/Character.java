@@ -2,6 +2,10 @@ package model.characters;
 
 import java.awt.Point;
 
+import model.world.CharacterCell;
+import exceptions.InvalidTargetException;
+import exceptions.NotEnoughActionsException;
+import engine.Game;
 
 public abstract class Character {
 	private String name;
@@ -64,5 +68,30 @@ public abstract class Character {
 		return attackDmg;
 	}
 	
+	public void attack() throws NotEnoughActionsException,InvalidTargetException{
+		if(this.getTarget() instanceof Zombie || this.getTarget() instanceof Hero){
+		if(isAdjacent(this.getTarget(),this)){
+			this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-attackDmg);
+		if(this.getTarget().getCurrentHp()<=0)this.getTarget().onCharacterDeath();
+		this.getTarget().defend(this);}
+		else throw new InvalidTargetException();
+		}else throw new InvalidTargetException();}
+	
+	public void defend(Character c){
+		c.setCurrentHp(c.getCurrentHp()-(attackDmg)/2);
+		c.onCharacterDeath();
+	}
+	public void onCharacterDeath(){
+		if(this.getCurrentHp()<=0)
+		Game.map [this.getLocation().y][this.getLocation().x]=new CharacterCell(null);
+	}
+	public Boolean isAdjacent(Character char1,Character char2){
+		int x1 =char1.getLocation().x; int x2 = char2.getLocation().x;
+		int y1 =char1.getLocation().y; int y2 = char2.getLocation().y;
+		return ((x1 == x2)&&((y2+1<=14)&&(y1 == y2 + 1)||((y2-1>=0)&&(y1 == y2 - 1)))||
+				((y1 == y2)&&((x2+1<=14)&&(x1 == x2 + 1)||((y2-1>=0)&&(x1 == x2 - 1))))||
+				((x2+1<=14)&&(x1 == x2+1)&&((y2+1<=14)&&(y1 == y2 + 1)||((y2-1>=0)&&(y1 == y2 - 1))))||
+				((x2-1>=0)&&(x1 == x2-1)&&((y2+1<=14)&&(y1 == y2 + 1)||((y2-1>=0)&&(y1 == y2 - 1)))));
+	}
 
 }
