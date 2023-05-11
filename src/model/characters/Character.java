@@ -69,23 +69,30 @@ public abstract class Character {
 	}
 	
 	public void attack() throws NotEnoughActionsException,InvalidTargetException{
-		if(this.getTarget() instanceof Zombie || this.getTarget() instanceof Hero){
-		if(isAdjacent(this.getTarget(),this)){
-			this.getTarget().setCurrentHp(this.getTarget().getCurrentHp()-attackDmg);
-		if(this.getTarget().getCurrentHp()<=0)this.getTarget().onCharacterDeath();
-		this.getTarget().defend(this);}
+		Character target = this.getTarget();
+		if(target instanceof Zombie || target instanceof Hero){
+			if(isAdjacent(target, this)){
+				target.setCurrentHp(target.getCurrentHp()-attackDmg);
+				target.defend(this);
+				if(target.getCurrentHp()<=0) {
+					target.onCharacterDeath();
+				}
+			}
+			else throw new InvalidTargetException();
+		}
 		else throw new InvalidTargetException();
-		}else throw new InvalidTargetException();}
+	}
 	
 	public void defend(Character c){
 		c.setCurrentHp(c.getCurrentHp()-(attackDmg)/2);
 		c.onCharacterDeath();
 	}
 	public void onCharacterDeath(){
-		if(this.getCurrentHp()<=0)
-		Game.map [this.getLocation().y][this.getLocation().x]=new CharacterCell(null);
+		if(this.getCurrentHp()<=0) {
+			Game.map[this.getLocation().y][this.getLocation().x] = new CharacterCell(null);
+		}
 	}
-	public Boolean isAdjacent(Character char1,Character char2){
+	public Boolean isAdjacent(Character char1, Character char2){
 		int x1 =char1.getLocation().x; int x2 = char2.getLocation().x;
 		int y1 =char1.getLocation().y; int y2 = char2.getLocation().y;
 		return ((x1 == x2)&&((y2+1<=14)&&(y1 == y2 + 1)||((y2-1>=0)&&(y1 == y2 - 1)))||
