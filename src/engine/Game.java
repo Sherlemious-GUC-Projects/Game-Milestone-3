@@ -114,7 +114,8 @@ public class Game {
 		map[0][0].setVisible(true);
 		
 	}
-	public static boolean checkWin(){
+
+	public static int getVaccinesOnMap(){
 		int count = 0;
 		for(int i =0;i<15;i++){
 			for(int j =0;j<15;j++){
@@ -122,16 +123,23 @@ public class Game {
 					count++;
 			}
 		}
-		// Count Vaccines in inventory for all heroes
-		int vaccinesInInventory = 0;
+		return count;
+	}
+	public static int getVaccinesInInventory(){
+		int count = 0;
 		for(Hero h: heroes){
-			vaccinesInInventory+=h.getVaccineInventory().size();
+			count+=h.getVaccineInventory().size();
 		}
-		return ((count== 0) && heroes.size()>=5 && vaccinesInInventory==0);
+		return count;
+	}
+
+	public static boolean checkWin(){
+		// Count Vaccines in inventory for all heroes
+		return ((getVaccinesOnMap() == 0) && heroes.size()>=5 && getVaccinesInInventory()==0 && zombies.size()==0);
 	}
 	public static boolean checkGameOver(){
 		// Check if all vaccines have been collected and used when there are still zombies on the map
-		if(Vaccine.Count == 5 && zombies.size()>0)
+		if((getVaccinesOnMap()+getVaccinesInInventory())==0)
 			return true;
 
 		return heroes.isEmpty() || checkWin() || availableHeroes.isEmpty() && heroes.get(0).getVaccineInventory().isEmpty() ;
