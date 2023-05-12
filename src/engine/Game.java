@@ -145,16 +145,8 @@ public class Game {
 		return heroes.isEmpty() || checkWin() || availableHeroes.isEmpty() && heroes.get(0).getVaccineInventory().isEmpty() ;
 	}
 	public static void endTurn() throws NotEnoughActionsException, InvalidTargetException{
-		int x;int y;
-		do{
-			x = (int)(Math.random()*15);
-			y = (int)(Math.random()*15);
-		}while((map[x][y] instanceof CollectibleCell)||(map[x][y] instanceof TrapCell)|| (((CharacterCell) map[x][y]).getCharacter() instanceof Zombie)|| (((CharacterCell) map[x][y]).getCharacter() instanceof Hero));
-		Zombie s = new Zombie();
-		zombies.add(s);
-		map[x][y]=new CharacterCell(s);
-		Point p = new Point(y,x);
-		s.setLocation(p);
+		Game.spawnZombie();
+		
 		for(int i =0;i<15;i++){
 			for(int j =0;j<15;j++){
 				map[j][i].setVisible(false);}}
