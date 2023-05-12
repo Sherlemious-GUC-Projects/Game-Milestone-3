@@ -65,6 +65,14 @@ public class Game {
 		return new Point(x,y);
 	}
 
+	public static void spawnZombie(){
+		Point p = getEmptyLocation();
+		Zombie z = new Zombie();
+		zombies.add(z);
+		map[p.x][p.y]=new CharacterCell(z);
+		z.setLocation(p);
+	}
+
 	public static void startGame(Hero h){
 		map=new Cell[15][15];
 
@@ -93,15 +101,7 @@ public class Game {
 		// Add zombies to the map
 		int x,y;
 		for(int i=0; i<10; i++){
-			do{
-				x = (int)(Math.random()*14)+1;
-				y = (int)(Math.random()*14)+1;
-			}while((map[x][y] instanceof CollectibleCell)||(map[x][y] instanceof TrapCell)|| (((CharacterCell) map[x][y]).getCharacter() instanceof Zombie));
-			Zombie newZombie = new Zombie();
-			zombies.add(newZombie);
-			map[x][y]=new CharacterCell(newZombie);
-			Point p = new Point(x,y);
-			newZombie.setLocation(p);
+			spawnZombie();
 		}
 		map[0][0]=new CharacterCell(h);
 		heroes.add(h);

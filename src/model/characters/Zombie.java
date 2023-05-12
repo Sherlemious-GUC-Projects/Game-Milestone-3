@@ -22,16 +22,7 @@ public class Zombie extends Character {
 		if(this.getCurrentHp()<=0){
 
 			Game.zombies.remove(this);
-			int x; int y;
-			do{
-				x = (int)(Math.random()*15);
-				y = (int)(Math.random()*15);
-			}while((Game.map[x][y] instanceof CollectibleCell)||(Game.map[x][y] instanceof TrapCell)|| ((CharacterCell) Game.map[x][y]).getCharacter() instanceof Zombie|| (((CharacterCell) Game.map[x][y]).getCharacter() instanceof Hero));
-			Zombie s = new Zombie();
-			Game.zombies.add(s);
-			Game.map[x][y]=new CharacterCell(s);
-			Point p = new Point(x,y);
-			s.setLocation(p);
+			Game.spawnZombie();
 			super.onCharacterDeath();
 		}
 	}
