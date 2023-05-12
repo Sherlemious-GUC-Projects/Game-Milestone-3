@@ -20,7 +20,6 @@ public class Zombie extends Character {
 	}
 	public void onCharacterDeath(){
 		if(this.getCurrentHp()<=0){
-
 			Game.zombies.remove(this);
 			int x; int y;
 			do{
