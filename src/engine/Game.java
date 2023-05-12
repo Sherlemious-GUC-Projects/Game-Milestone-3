@@ -146,7 +146,7 @@ public class Game {
 	}
 	public static void endTurn() throws NotEnoughActionsException, InvalidTargetException{
 		Game.spawnZombie();
-		
+
 		for(int i =0;i<15;i++){
 			for(int j =0;j<15;j++){
 				map[j][i].setVisible(false);}}
