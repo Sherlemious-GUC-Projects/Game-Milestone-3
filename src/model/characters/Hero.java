@@ -114,30 +114,32 @@ public abstract class Hero extends Character {
 			break;}
 		if(location.y<0||location.x<0||location.y>14||location.x>14)throw new MovementException();
 
-
+//Pickup collectible
 		if(Game.map[location.x][location.y] instanceof CollectibleCell){
 			if(((CollectibleCell) Game.map[location.x][location.y]).getCollectible() instanceof Supply){
 				((Supply) ((CollectibleCell) Game.map[location.x][location.y]).getCollectible()).pickUp(this);}
 			if(((CollectibleCell) Game.map[location.x][location.y]).getCollectible() instanceof Vaccine){
 			((Vaccine) ((CollectibleCell) Game.map[location.x][location.y]).getCollectible()).pickUp(this);
 		}}
-
+//can't move to an occupied cell
 
 		if((Game.map[location.x][location.y] instanceof CharacterCell)&& !(((CharacterCell) Game.map[location.x][location.y]).getCharacter() == null)){
 				throw new MovementException("your path is blocked by someone");
 		}
+		
+//trapcell		
 		if(Game.map[location.x][location.y] instanceof TrapCell){
 			this.setCurrentHp(this.getCurrentHp() - ((TrapCell) (Game.map[location.x][location.y])).getTrapDamage());
-			if(this.getCurrentHp()==0)this.onCharacterDeath();
-			flag = false;
+			if(this.getCurrentHp()<=0)this.onCharacterDeath();
 	}
+//updates visibility		
 		  Game.map[location.x][location.y]=new CharacterCell(this);
 		  Game.map[oldLocation.x][oldLocation.y]=new CharacterCell(null);
 		  this.setLocation(location);
 		  this.setActionsAvailable(this.getActionsAvailable()-1);
 		  for(int i=-1;i<=1;i++){
 			  for(int j=-1;j<=1;j++ ){
-				  if(flag&&location.x+i>=0&&location.x+i<=14&&location.y+i>=0&&location.y+i<=14)Game.map[location.x+i][location.y+j].setVisible(true);
+				  if(this.getCurrentHp()>0 &&location.x+i>=0&&location.x+i<=14&&location.y+j>=0&&location.y+j<=14)Game.map[location.x+i][location.y+j].setVisible(true);
 			  }
 		  }
 
@@ -156,8 +158,9 @@ public abstract class Hero extends Character {
 			v.use(this);
 	}
 	public void onCharacterDeath(){
-		super.onCharacterDeath();
+
 		Game.heroes.remove(this);
+		super.onCharacterDeath();
 	}
 }
 

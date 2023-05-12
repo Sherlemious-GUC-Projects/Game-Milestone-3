@@ -69,10 +69,11 @@ public abstract class Character {
 	}
 	
 	public void attack() throws NotEnoughActionsException,InvalidTargetException{
-		Character target = this.getTarget();
-		if(target instanceof Zombie || target instanceof Hero){
+
+		if(this.getTarget() instanceof Zombie){
+			Zombie target = (Zombie)this.getTarget();
 			if(isAdjacent(target, this)){
-				target.setCurrentHp(target.getCurrentHp()-attackDmg);
+				target.setCurrentHp(target.getCurrentHp()-this.getAttackDmg());
 				target.defend(this);
 				if(target.getCurrentHp()<=0) {
 					target.onCharacterDeath();
@@ -80,16 +81,30 @@ public abstract class Character {
 			}
 			else throw new InvalidTargetException();
 		}
-		else throw new InvalidTargetException();
+		if(this.getTarget() instanceof Hero){
+			Hero target = (Hero)this.getTarget();
+			if(isAdjacent(target, this)){
+				target.setCurrentHp(target.getCurrentHp()-this.getAttackDmg());
+				target.defend(this);
+				if(target.getCurrentHp()<=0) {
+					target.onCharacterDeath();
+				}
+			}
+			else throw new InvalidTargetException();
+		}
+		if(!(this.getTarget() instanceof Hero)&&!(this.getTarget() instanceof Zombie))
+		throw new InvalidTargetException();
 	}
 	
 	public void defend(Character c){
-		c.setCurrentHp(c.getCurrentHp()-(attackDmg)/2);
+		c.setCurrentHp(c.getCurrentHp()-(this.getAttackDmg())/2);
+		
 		c.onCharacterDeath();
 	}
-	public void onCharacterDeath(){
+	
+	public void onCharacterDeath(){		
 		if(this.getCurrentHp()<=0) {
-			Game.map[this.getLocation().y][this.getLocation().x] = new CharacterCell(null);
+			Game.map[this.getLocation().x][this.getLocation().y] = new CharacterCell(null);
 		}
 	}
 	public Boolean isAdjacent(Character char1, Character char2){

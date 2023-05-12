@@ -61,7 +61,7 @@ public class Game {
 		do{
 			x = (int)(Math.random()*14)+1;
 			y = (int)(Math.random()*14)+1;
-		}while(map[y][x] instanceof CollectibleCell || map[y][x] instanceof TrapCell);
+		}while(map[x][y] instanceof CollectibleCell || map[x][y] instanceof TrapCell);
 		return new Point(x,y);
 	}
 
@@ -77,18 +77,18 @@ public class Game {
 		// Add collectibles to the map
 		for(int i=0; i<5; i++){
 			Point p = getEmptyLocation();
-			map[p.y][p.x]=new CollectibleCell(new Vaccine());
+			map[p.x][p.y]=new CollectibleCell(new Vaccine());
 		}
 
 		// Add supplies to the map
 		for(int i=0; i<5; i++){
 			Point p = getEmptyLocation();
-			map[p.y][p.x]=new CollectibleCell(new Supply());
+			map[p.x][p.y]=new CollectibleCell(new Supply());
 		}
 		// Add trap cells to the map
 		for(int i=0; i<5; i++){
 			Point p = getEmptyLocation();
-			map[p.y][p.x]=new TrapCell();
+			map[p.x][p.y]=new TrapCell();
 		}
 		// Add zombies to the map
 		int x,y;
@@ -96,11 +96,11 @@ public class Game {
 			do{
 				x = (int)(Math.random()*14)+1;
 				y = (int)(Math.random()*14)+1;
-			}while((map[y][x] instanceof CollectibleCell)||(map[y][x] instanceof TrapCell)|| (((CharacterCell) map[y][x]).getCharacter() instanceof Zombie));
+			}while((map[x][y] instanceof CollectibleCell)||(map[x][y] instanceof TrapCell)|| (((CharacterCell) map[x][y]).getCharacter() instanceof Zombie));
 			Zombie newZombie = new Zombie();
 			zombies.add(newZombie);
-			map[y][x]=new CharacterCell(newZombie);
-			Point p = new Point(y,x);
+			map[x][y]=new CharacterCell(newZombie);
+			Point p = new Point(x,y);
 			newZombie.setLocation(p);
 		}
 		map[0][0]=new CharacterCell(h);
@@ -135,7 +135,7 @@ public class Game {
 
 	public static boolean checkWin(){
 		// Count Vaccines in inventory for all heroes
-		return ((getVaccinesOnMap() == 0) && heroes.size()>=5 && getVaccinesInInventory()==0 && zombies.size()==0);
+		return ((getVaccinesOnMap() == 0) && heroes.size()>=5 && getVaccinesInInventory()==0 );
 	}
 	public static boolean checkGameOver(){
 		// Check if all vaccines have been collected and used when there are still zombies on the map
@@ -149,10 +149,10 @@ public class Game {
 		do{
 			x = (int)(Math.random()*15);
 			y = (int)(Math.random()*15);
-		}while((map[y][x] instanceof CollectibleCell)||(map[y][x] instanceof TrapCell)|| (((CharacterCell) map[y][x]).getCharacter() instanceof Zombie)|| (((CharacterCell) map[y][x]).getCharacter() instanceof Hero));
+		}while((map[x][y] instanceof CollectibleCell)||(map[x][y] instanceof TrapCell)|| (((CharacterCell) map[x][y]).getCharacter() instanceof Zombie)|| (((CharacterCell) map[x][y]).getCharacter() instanceof Hero));
 		Zombie s = new Zombie();
 		zombies.add(s);
-		map[y][x]=new CharacterCell(s);
+		map[x][y]=new CharacterCell(s);
 		Point p = new Point(y,x);
 		s.setLocation(p);
 		for(int i =0;i<15;i++){
@@ -173,7 +173,7 @@ public class Game {
 					for(int m=-1;m<=1;m++){
 						for(int n=-1;n<=1;n++ ){
 							if((n+i>=0) && n+i<=14 &&(m+j>=0)&& m+j<=14) {
-								map[j + m][i + n].setVisible(true);
+								map[j+m][i+n].setVisible(true);
 							}
 						}
 					}
