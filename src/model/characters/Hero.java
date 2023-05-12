@@ -95,7 +95,6 @@ public abstract class Hero extends Character {
 
 
 	public void move(Direction d) throws MovementException, NotEnoughActionsException{
-		boolean flag = true;
 		Point oldLocation = new Point(this.getLocation());
 		Point location = new Point(this.getLocation());
 		if(this.getActionsAvailable()==0)throw new NotEnoughActionsException();
@@ -130,19 +129,21 @@ public abstract class Hero extends Character {
 //trapcell		
 		if(Game.map[location.x][location.y] instanceof TrapCell){
 			this.setCurrentHp(this.getCurrentHp() - ((TrapCell) (Game.map[location.x][location.y])).getTrapDamage());
-			if(this.getCurrentHp()<=0)this.onCharacterDeath();
 	}
-//updates visibility		
+
+//updates Location&visibility
+		  if(this.getCurrentHp()>0){
+				this.setLocation(location);
 		  Game.map[location.x][location.y]=new CharacterCell(this);
 		  Game.map[oldLocation.x][oldLocation.y]=new CharacterCell(null);
-		  this.setLocation(location);
 		  this.setActionsAvailable(this.getActionsAvailable()-1);
 		  for(int i=-1;i<=1;i++){
 			  for(int j=-1;j<=1;j++ ){
-				  if(this.getCurrentHp()>0 &&location.x+i>=0&&location.x+i<=14&&location.y+j>=0&&location.y+j<=14)Game.map[location.x+i][location.y+j].setVisible(true);
+				  if(location.x+i>=0&&location.x+i<=14&&location.y+j>=0&&location.y+j<=14)Game.map[location.x+i][location.y+j].setVisible(true);
 			  }
 		  }
-
+		  }
+		  else this.onCharacterDeath();
 	}
 	public void useSpecial() throws NoAvailableResourcesException, InvalidTargetException{
 		if(this.getSupplyInventory().isEmpty())throw new NoAvailableResourcesException();
