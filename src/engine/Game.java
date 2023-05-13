@@ -145,6 +145,17 @@ public class Game {
 		return heroes.isEmpty() || checkWin() || availableHeroes.isEmpty() && heroes.get(0).getVaccineInventory().isEmpty() ;
 	}
 	public static void endTurn() throws NotEnoughActionsException, InvalidTargetException{
+		
+		
+		for(int i =0;i<15;i++){
+			for(int j =0;j<15;j++){
+				Game.map[j][i].setVisible(false);}}
+		
+		for(int i =0;i<zombies.size();i++){
+			Zombie z = zombies.get(i);
+	    	z.attack();
+	    	z.setTarget(null);
+		}
 		int x;int y;
 		do{
 			x = (int)(Math.random()*15);
@@ -156,15 +167,6 @@ public class Game {
 		Point p = new Point(x,y);
 		s.setLocation(p);
 		
-		for(int i =0;i<15;i++){
-			for(int j =0;j<15;j++){
-				Game.map[j][i].setVisible(false);}}
-		
-		for(int i =0;i<zombies.size();i++){
-			Zombie z = zombies.get(i);
-	    	z.attack();
-	    	z.setTarget(null);
-		}
 		for(int c =0;c<heroes.size();c++){
 					Hero h = heroes.get(c);
 					int i =h.getLocation().y; int j =h.getLocation().x;
