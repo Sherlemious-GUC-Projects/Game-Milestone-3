@@ -23,7 +23,7 @@ import model.world.TrapCell;
 
 public class Game {
 	
-	public static Cell [][] map ;
+	public static Cell [][] map =new Cell[15][15]; ;
 	public static ArrayList <Hero> availableHeroes = new ArrayList<Hero>();
 	public static ArrayList <Hero> heroes =  new ArrayList<Hero>();
 	public static ArrayList <Zombie> zombies =  new ArrayList<Zombie>();
@@ -66,7 +66,7 @@ public class Game {
 	}
 
 	public static void startGame(Hero h){
-		Game.map=new Cell[15][15];
+
 
 		// initialize Game.map with empty character cells
 		for(int i =0;i<15;i++){

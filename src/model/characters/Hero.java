@@ -30,8 +30,8 @@ public abstract class Hero extends Character {
 		this.maxActions = maxActions;
 		this.actionsAvailable = maxActions;
 		this.vaccineInventory = new ArrayList<Vaccine>();
-		this.supplyInventory = new ArrayList<Supply>();
-		this.specialAction = false;
+		this.supplyInventory=new ArrayList<Supply>();
+		this.specialAction=false;
 
 	}
 
@@ -113,25 +113,25 @@ public abstract class Hero extends Character {
 			break;}
 		if(location.y<0||location.x<0||location.y>14||location.x>14)throw new MovementException();
 
-	//Pickup collectible
+//Pickup collectible
 		if(Game.map[location.x][location.y] instanceof CollectibleCell){
 			if(((CollectibleCell) Game.map[location.x][location.y]).getCollectible() instanceof Supply){
 				((Supply) ((CollectibleCell) Game.map[location.x][location.y]).getCollectible()).pickUp(this);}
 			if(((CollectibleCell) Game.map[location.x][location.y]).getCollectible() instanceof Vaccine){
 			((Vaccine) ((CollectibleCell) Game.map[location.x][location.y]).getCollectible()).pickUp(this);
 		}}
-	//can't move to an occupied cell
+//can't move to an occupied cell
 
 		if((Game.map[location.x][location.y] instanceof CharacterCell)&& !(((CharacterCell) Game.map[location.x][location.y]).getCharacter() == null)){
 				throw new MovementException("your path is blocked by someone");
 		}
 		
-	// Trap cell case
+//trapcell		
 		if(Game.map[location.x][location.y] instanceof TrapCell){
 			this.setCurrentHp(this.getCurrentHp() - ((TrapCell) (Game.map[location.x][location.y])).getTrapDamage());
 	}
 
-	//updates Location&visibility
+//updates visibility
 		  if(this.getCurrentHp()>0){
 				this.setLocation(location);
 		  Game.map[location.x][location.y]=new CharacterCell(this);

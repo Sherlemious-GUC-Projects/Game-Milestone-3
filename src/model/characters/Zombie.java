@@ -19,12 +19,20 @@ public class Zombie extends Character {
 		ZOMBIES_COUNT++;
 	}
 	public void onCharacterDeath(){
-		if(this.getCurrentHp()<=0){
-
+			Game.map[this.getLocation().x][this.getLocation().y] = new CharacterCell(null);
 			Game.zombies.remove(this);
-			Game.spawnZombie();
+			int x; int y;
+			do{
+				x = (int)(Math.random()*15);
+				y = (int)(Math.random()*15);
+			}while((Game.map[x][y] instanceof CollectibleCell)||(Game.map[x][y] instanceof TrapCell)|| ((CharacterCell) Game.map[x][y]).getCharacter() instanceof Zombie|| (((CharacterCell) Game.map[x][y]).getCharacter() instanceof Hero));
+			Zombie s = new Zombie();
+			Game.zombies.add(s);
+			Game.map[x][y]=new CharacterCell(s);
+			Point p = new Point(x,y);
+			s.setLocation(p);	
 			super.onCharacterDeath();
-		}
+		
 	}
 	public void attack() throws NotEnoughActionsException, InvalidTargetException{
 		int j =this.getLocation().x; int i = this.getLocation().y;
@@ -40,7 +48,6 @@ public class Zombie extends Character {
 			}
 		}
 	}
-}
-
+}           
 
 
