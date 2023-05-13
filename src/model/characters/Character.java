@@ -97,9 +97,17 @@ public abstract class Character {
 	}
 	
 	public void defend(Character c){
-		c.setCurrentHp(c.getCurrentHp()-(this.getAttackDmg())/2);
-		
-		c.onCharacterDeath();
+		c.setCurrentHp(c.getCurrentHp()-(int)((this.getAttackDmg())/2));
+		if(c.getCurrentHp()<=0){
+		if(c instanceof Hero){
+			Hero h = (Hero) c;
+			h.onCharacterDeath();
+		}
+		if(c instanceof Zombie){
+			Zombie h = (Zombie) c;
+			h.onCharacterDeath();
+		}
+		}
 	}
 	
 	public void onCharacterDeath(){		
