@@ -1,6 +1,4 @@
 ./src/tests/M2PublicTests.java
-./src/tests/M1PrivateTests.java
-./src/tests/M1PublicTests.java
 ./src/exceptions/MovementException.java
 ./src/exceptions/InvalidTargetException.java
 ./src/exceptions/NoAvailableResourcesException.java
