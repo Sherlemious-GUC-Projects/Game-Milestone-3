@@ -1,3 +1,5 @@
+./src/javaFX/GameView.java
+./src/javaFX/Main.java
 ./src/tests/M2PublicTests.java
 ./src/exceptions/MovementException.java
 ./src/exceptions/InvalidTargetException.java
