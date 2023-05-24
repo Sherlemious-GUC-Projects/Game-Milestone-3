@@ -5,7 +5,15 @@ import javafx.scene.control.Button;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
@@ -149,6 +157,51 @@ public class GameView {
 		Scene startScreen = new Scene(stackPane, 800, 600);
 
 		return startScreen;
+	}
+	public static Scene game(){
+		BorderPane border = new BorderPane();
+
+        GridPane grid = new GridPane();
+        border.setCenter(grid);
+        //divide the border pane bottom into 5 buttons
+        VBox vbox = new VBox();
+        border.setRight(vbox);
+        vbox.setSpacing(0);
+        //image
+        Image img = new Image("Sprite-0002.png");
+        ImageView imgView = new ImageView(img);
+        imgView.setFitHeight(100);
+        imgView.setFitWidth(100);
+        //create 15 by 15 grid
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15 ; j++) {
+                Rectangle rect = new Rectangle(50, 50);
+                rect.setFill(Color.WHITE);
+                rect.setStroke(Color.BLACK);
+                grid.add(rect, i, j);
+            }
+        }
+
+        Button button1 = new Button("");
+        button1.setGraphic(imgView);
+        Button button2 = new Button("Attack");
+        Button button3 = new Button("Cure");
+        Button button4 = new Button("Move");
+        Button button5 = new Button("Special");
+        button1.setMinSize(100, 100);
+        button2.setMinSize(100, 100);
+        button3.setMinSize(100, 100);
+        button4.setMinSize(100, 100);
+        button5.setMinSize(100, 100);
+        
+
+        vbox.getChildren().addAll(button1, button2, button3, button4, button5);
+
+        //set up a scene with the borderpane as its root
+        Scene scene = new Scene(border, 900, 800);
+        
+		return scene;
+		
 	}
 
 }
