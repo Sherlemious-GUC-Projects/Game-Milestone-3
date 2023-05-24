@@ -1,8 +1,12 @@
 package javaFX;
 
 // importing javaFX related classes
+
+
+import engine.Game;
 import javafx.scene.control.Button;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -25,6 +29,7 @@ import model.characters.Fighter;
 import model.characters.Medic;
 import model.characters.Zombie;
 
+//more imports 
 
 
 public class GameView {
@@ -36,6 +41,7 @@ public class GameView {
 		Button startButton = new Button("Start");
 		startButton.setOnAction(e -> {
 			System.out.println("Start button pressed");
+			
 		});
 		stackPane.getChildren().add(startButton);
 		startButton.setTranslateY(-50);
@@ -160,20 +166,16 @@ public class GameView {
 	}
 	public static Scene game(){
 		BorderPane border = new BorderPane();
-
-        GridPane grid = new GridPane();
-        border.setCenter(grid);
-        //divide the border pane bottom into 5 buttons
-        VBox vbox = new VBox();
-        border.setRight(vbox);
-        vbox.setSpacing(0);
-        //image
-        Image img = new Image("Sprite-0002.png");
-        ImageView imgView = new ImageView(img);
-        imgView.setFitHeight(100);
-        imgView.setFitWidth(100);
-        //create 15 by 15 grid
-        for (int i = 0; i < 15; i++) {
+        border.setCenter(map());
+        border.setRight(hud_basic());
+        Scene scene = new Scene(border, 900, 800);
+        
+		return scene;
+		
+	}
+	public static Node map(){
+		GridPane grid = new GridPane();
+		for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15 ; j++) {
                 Rectangle rect = new Rectangle(50, 50);
                 rect.setFill(Color.WHITE);
@@ -181,7 +183,16 @@ public class GameView {
                 grid.add(rect, i, j);
             }
         }
-
+		return grid;
+	}
+	public static Node hud_basic(){
+		VBox vbox = new VBox();
+		vbox.setSpacing(0);
+        //image
+        Image img = new Image("Sprite-0002.png");
+        ImageView imgView = new ImageView(img);
+        imgView.setFitHeight(100);
+        imgView.setFitWidth(100);
         Button button1 = new Button("");
         button1.setGraphic(imgView);
         Button button2 = new Button("Attack");
@@ -194,14 +205,30 @@ public class GameView {
         button4.setMinSize(100, 100);
         button5.setMinSize(100, 100);
         
+        ComboBox comboBox = new ComboBox();
+        for(Hero hero : Game.heroes) {
+            comboBox.getItems().add(hero.getName());
+        }
 
         vbox.getChildren().addAll(button1, button2, button3, button4, button5);
-
-        //set up a scene with the borderpane as its root
-        Scene scene = new Scene(border, 900, 800);
         
-		return scene;
+        button1.setOnAction(e -> {
+            System.out.println("Button 1 pressed");
+        });
+        button2.setOnAction(e -> {
+        	
+        });
+        button3.setOnAction(e -> {
+            System.out.println("Button 3 pressed");
+        });
+        button4.setOnAction(e -> {
+            System.out.println("Button 4 pressed");
+        });
+        button5.setOnAction(e -> {
+            System.out.println("Button 5 pressed");
+        });
+        return vbox;
 		
 	}
-
+	
 }
