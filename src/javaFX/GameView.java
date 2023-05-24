@@ -3,6 +3,10 @@ package javaFX;
 // importing javaFX related classes
 
 
+import java.io.IOException;
+import java.util.Iterator;
+
+
 import engine.Game;
 import javafx.scene.control.Button;
 import javafx.scene.Group;
@@ -21,6 +25,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
+import javafx.stage.Stage;
 // importing character classes
 import model.characters.Character;
 import model.characters.Hero;
@@ -33,19 +38,15 @@ import model.characters.Zombie;
 
 
 public class GameView {
+	
+	
+	
+	
 	public static Scene startScreen() {
 		// main pane
 		StackPane stackPane = new StackPane();
-
-		//start button
-		Button startButton = new Button("Start");
-		startButton.setOnAction(e -> {
-			System.out.println("Start button pressed");
-			
-		});
-		stackPane.getChildren().add(startButton);
-		startButton.setTranslateY(-50);
-		stackPane.setAlignment(startButton, Pos.BOTTOM_CENTER);
+       
+		
 
 		//Labels initialization
 		Label gameTitle = new Label("The Last of Us");
@@ -96,6 +97,7 @@ public class GameView {
 		);
 		characterSelection.valueProperty().addListener((observable, oldValue, newValue) -> {
 			characterSelectedName.setText("Character selected:    " + newValue);
+			
 			switch (newValue.toString()) {
 				case "Joel Miller":
 					characterSelectedType.setText("Type:    " + "fighter");
@@ -153,11 +155,36 @@ public class GameView {
 					break;
 			}
 		});
+		 //Load Heroes
+		try{
+	        Game.loadHeroes("C:\\Users\\mizon\\Favorites\\Downloads\\GUC_402_59_30348_2023-03-16T15_31_00 (2)\\Heros.csv");
+	        }catch(IOException e){
+	        	System.out.print("you problem");
+	        }
+		//start button
+		Button startButton = new Button("Start");
+		startButton.setOnAction(e -> {
+			if(characterSelection.valueProperty().getValue()!=null)
+				for (Iterator<Hero> iterator = Game.availableHeroes.iterator(); iterator.hasNext();) {
+				    Hero hero = iterator.next();
+				    if (hero==null) {
+				        // Remove the current element from the iterator and the list.
+				        iterator.remove();
+				    }
+				    if(hero.getName().equals(characterSelection.valueProperty().getValue())){
+				    	Game.startGame(hero);
+				    	
+				    }
+				}
 
+		});
 		//adding character selection to pane
 		stackPane.getChildren().add(characterSelection);
 		characterSelection.setTranslateY(-100);
 		stackPane.setAlignment(characterSelection, Pos.BOTTOM_CENTER);
+		stackPane.getChildren().add(startButton);
+		startButton.setTranslateY(-50);
+		stackPane.setAlignment(startButton, Pos.BOTTOM_CENTER);
 
 		// initializing scene
 		Scene startScreen = new Scene(stackPane, 800, 600);
@@ -199,18 +226,18 @@ public class GameView {
         Button button3 = new Button("Cure");
         Button button4 = new Button("Move");
         Button button5 = new Button("Special");
+        Button button6 = new Button("Heroes");
         button1.setMinSize(100, 100);
         button2.setMinSize(100, 100);
         button3.setMinSize(100, 100);
         button4.setMinSize(100, 100);
         button5.setMinSize(100, 100);
+        button6.setMinSize(100, 100);
         
-        ComboBox comboBox = new ComboBox();
-        for(Hero hero : Game.heroes) {
-            comboBox.getItems().add(hero.getName());
-        }
+        
+       
 
-        vbox.getChildren().addAll(button1, button2, button3, button4, button5);
+        vbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
         
         button1.setOnAction(e -> {
             System.out.println("Button 1 pressed");
@@ -227,8 +254,26 @@ public class GameView {
         button5.setOnAction(e -> {
             System.out.println("Button 5 pressed");
         });
+        button6.setOnAction(e -> {
+        	vbox.getChildren().clear();
+        	vbox.getChildren().add(heroes());
+        });
+        
+        
         return vbox;
 		
+	}
+	public static Node heroes(){
+		ComboBox comboBox = new ComboBox();
+		for(Hero hero : Game.availableHeroes) {
+            comboBox.getItems().add(hero.getName());
+        }
+		comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+			
+			
+		});
+		
+		return comboBox;
 	}
 	
 }
