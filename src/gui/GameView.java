@@ -1,13 +1,6 @@
-package javaFX;
+package gui;
 
-// importing javaFX related classes
-
-
-import java.io.IOException;
-import java.util.Iterator;
-
-
-import engine.Game;
+// importing gui related classes
 import javafx.scene.control.Button;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -24,8 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-
 import javafx.stage.Stage;
+
 // importing character classes
 import model.characters.Character;
 import model.characters.Hero;
@@ -34,15 +27,19 @@ import model.characters.Fighter;
 import model.characters.Medic;
 import model.characters.Zombie;
 
+// importing game related classes
+import engine.Game;
+
 //more imports 
+import java.io.IOException;
+import java.util.Iterator;
 
 
 public class GameView {
+	static String pathToHeroes = "gui/data/Heros.csv";
 	public static Scene startScreen() {
 		// main pane
 		StackPane stackPane = new StackPane();
-       
-		
 
 		//Labels initialization
 		Label gameTitle = new Label("The Last of Us");
@@ -77,8 +74,6 @@ public class GameView {
 		characterSelectedNumberOfMoves.setTranslateY(-200);
 		stackPane.setAlignment(characterSelectedNumberOfMoves, Pos.BOTTOM_CENTER);
 	
-		//Image initialization??
-
 		// character selection
 		ComboBox characterSelection = new ComboBox();
 		characterSelection.getItems().addAll(
@@ -151,12 +146,15 @@ public class GameView {
 					break;
 			}
 		});
-		 //Load Heroes
+		
+		//Load Heroes
 		try{
-	        Game.loadHeroes("C:\\Users\\mizon\\Favorites\\Downloads\\GUC_402_59_30348_2023-03-16T15_31_00 (2)\\Heros.csv");
-	        }catch(IOException e){
+	        Game.loadHeroes(pathToHeroes);
+		}catch(IOException e){
 	        	System.out.print("you problem");
-	        }
+				System.out.print(e.getMessage());
+		}
+
 		//start button
 		Button startButton = new Button("Start");
 		startButton.setOnAction(e -> {
@@ -169,11 +167,10 @@ public class GameView {
 				    }
 				    if(hero.getName().equals(characterSelection.valueProperty().getValue())){
 				    	Game.startGame(hero);
-				    	
 				    }
 				}
-
 		});
+		
 		//adding character selection to pane
 		stackPane.getChildren().add(characterSelection);
 		characterSelection.setTranslateY(-100);

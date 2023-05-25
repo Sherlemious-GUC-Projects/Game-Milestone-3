@@ -1,11 +1,11 @@
-./src/javaFX/GameView.java
-./src/javaFX/Main.java
 ./src/tests/M2PublicTests.java
 ./src/exceptions/MovementException.java
 ./src/exceptions/InvalidTargetException.java
 ./src/exceptions/NoAvailableResourcesException.java
 ./src/exceptions/NotEnoughActionsException.java
 ./src/exceptions/GameActionException.java
+./src/gui/GameView.java
+./src/gui/Main.java
 ./src/model/collectibles/Vaccine.java
 ./src/model/collectibles/Collectible.java
 ./src/model/collectibles/Supply.java

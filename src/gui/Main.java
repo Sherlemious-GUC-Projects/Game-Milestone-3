@@ -1,17 +1,16 @@
-package javaFX;
+package gui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javaFX.GameView;
+import gui.GameView;
 
 public class Main extends Application {
+	static String heroName;
 	@Override
 	public void start(Stage primaryStage) {
 		Scene startScreen = GameView.startScreen();
-		Scene gameScreen = GameView.game();
-		Scene endScreen = GameView.endScreen(true);
-		primaryStage.setScene(endScreen);
+		primaryStage.setScene(startScreen);
 		primaryStage.show();
 	}
 
