@@ -6,11 +6,12 @@ import javafx.scene.Scene;
 import javaFX.GameView;
 
 public class Main extends Application {
-	
 	@Override
 	public void start(Stage primaryStage) {
 		Scene startScreen = GameView.startScreen();
-		primaryStage.setScene(startScreen);
+		Scene gameScreen = GameView.game();
+		Scene endScreen = GameView.endScreen(true);
+		primaryStage.setScene(endScreen);
 		primaryStage.show();
 	}
 

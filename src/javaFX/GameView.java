@@ -38,10 +38,6 @@ import model.characters.Zombie;
 
 
 public class GameView {
-	
-	
-	
-	
 	public static Scene startScreen() {
 		// main pane
 		StackPane stackPane = new StackPane();
@@ -187,19 +183,20 @@ public class GameView {
 		stackPane.setAlignment(startButton, Pos.BOTTOM_CENTER);
 
 		// initializing scene
-		Scene startScreen = new Scene(stackPane, 800, 600);
+		Scene startScreen = new Scene(stackPane, 900, 800);
 
 		return startScreen;
 	}
+
 	public static Scene game(){
 		BorderPane border = new BorderPane();
         border.setCenter(map());
-        border.setRight(hud_basic());
+        border.setRight(hudBasic());
         Scene scene = new Scene(border, 900, 800);
         
 		return scene;
-		
 	}
+
 	public static Node map(){
 		GridPane grid = new GridPane();
 		for (int i = 0; i < 15; i++) {
@@ -212,57 +209,55 @@ public class GameView {
         }
 		return grid;
 	}
-	public static Node hud_basic(){
+
+	public static Node hudBasic(){
 		VBox vbox = new VBox();
 		vbox.setSpacing(0);
-        //image
-        Image img = new Image("Sprite-0002.png");
-        ImageView imgView = new ImageView(img);
-        imgView.setFitHeight(100);
-        imgView.setFitWidth(100);
-        Button button1 = new Button("");
-        button1.setGraphic(imgView);
-        Button button2 = new Button("Attack");
-        Button button3 = new Button("Cure");
-        Button button4 = new Button("Move");
-        Button button5 = new Button("Special");
-        Button button6 = new Button("Heroes");
-        button1.setMinSize(100, 100);
-        button2.setMinSize(100, 100);
-        button3.setMinSize(100, 100);
-        button4.setMinSize(100, 100);
-        button5.setMinSize(100, 100);
-        button6.setMinSize(100, 100);
-        
-        
-       
+		//image
+		//Image img = new Image("data/file.jpg");
+		//ImageView imgView = new ImageView(img);
+		//imgView.setFitHeight(100);
+		//imgView.setFitWidth(100);
+		Button button1 = new Button("");
+		//button1.setGraphic(imgView);
+		Button button2 = new Button("Attack");
+		Button button3 = new Button("Cure");
+		Button button4 = new Button("Move");
+		Button button5 = new Button("Special");
+		Button button6 = new Button("Heroes");
+		button1.setMinSize(100, 100);
+		button2.setMinSize(100, 100);
+		button3.setMinSize(100, 100);
+		button4.setMinSize(100, 100);
+		button5.setMinSize(100, 100);
+		button6.setMinSize(100, 100);
 
-        vbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
-        
-        button1.setOnAction(e -> {
-            System.out.println("Button 1 pressed");
-        });
-        button2.setOnAction(e -> {
-        	
-        });
-        button3.setOnAction(e -> {
-            System.out.println("Button 3 pressed");
-        });
-        button4.setOnAction(e -> {
-            System.out.println("Button 4 pressed");
-        });
-        button5.setOnAction(e -> {
-            System.out.println("Button 5 pressed");
-        });
-        button6.setOnAction(e -> {
-        	vbox.getChildren().clear();
-        	vbox.getChildren().add(heroes());
-        });
-        
-        
-        return vbox;
-		
+		vbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
+
+		button1.setOnAction(e -> {
+			System.out.println("Button 1 pressed");
+		});
+		button2.setOnAction(e -> {
+			System.out.println("Button 2 pressed");
+		});
+		button3.setOnAction(e -> {
+			System.out.println("Button 3 pressed");
+		});
+		button4.setOnAction(e -> {
+			System.out.println("Button 4 pressed");
+		});
+		button5.setOnAction(e -> {
+			System.out.println("Button 5 pressed");
+		});
+		button6.setOnAction(e -> {
+			vbox.getChildren().clear();
+			vbox.getChildren().add(heroes());
+		});
+
+
+		return vbox;
 	}
+
 	public static Node heroes(){
 		ComboBox comboBox = new ComboBox();
 		for(Hero hero : Game.availableHeroes) {
@@ -275,5 +270,18 @@ public class GameView {
 		
 		return comboBox;
 	}
-	
+
+	public static Scene endScreen(boolean isWinner){
+		Label finalText = new Label();
+		if(isWinner){
+			finalText.setText("You Won!");
+		}else{
+			finalText.setText("You Lost!");
+		}
+		StackPane stackPane = new StackPane();
+		stackPane.getChildren().add(finalText);
+		Scene endScreen = new Scene(stackPane, 900, 800);
+		return endScreen;
+	}
+
 }
