@@ -7,16 +7,19 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import model.characters.Hero;
 
 public class HUD {
+    public static Hero currentHero = GameView.current_hero;
     public static Node hudHero(){
+        currentHero = GameView.current_hero;
         VBox characterInfo = new VBox();
         characterInfo.setStyle("-fx-background-color: #937e7e;");
         characterInfo.setAlignment(Pos.TOP_CENTER);
-        Label characterName = new Label("Name: " + Game.heroes.get(0).getName());
-        Label characterHealth = new Label("HP: " + Game.heroes.get(0).getCurrentHp() + "/" + Game.heroes.get(0).getMaxHp());
-        Label characterAttackDamage = new Label("Attack Damage: " + Game.heroes.get(0).getAttackDmg());
-        Label characterNumberOfMoves = new Label("Number of moves: ");
+        Label characterName = new Label("Name: " + currentHero.getName());
+        Label characterHealth = new Label("HP: " + currentHero.getCurrentHp() + "/" + currentHero.getMaxHp());
+        Label characterAttackDamage = new Label("Attack Damage: " + currentHero.getAttackDmg());
+        Label characterNumberOfMoves = new Label("Actions Available: " + currentHero.getActionsAvailable());
         Label characterType = new Label("Type: ");
         characterName.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
         characterHealth.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
