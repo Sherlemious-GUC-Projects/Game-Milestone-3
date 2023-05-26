@@ -49,3 +49,4 @@ bin/exceptions/MovementException.class
 bin/exceptions/InvalidTargetException.class
 bin/exceptions/GameActionException.class
 bin/engine/Game.class
+*.xml
