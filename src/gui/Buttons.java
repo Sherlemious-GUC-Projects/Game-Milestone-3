@@ -23,6 +23,6 @@ public class Buttons {
     }
     public static void moveButton(){
         System.out.println("Move Button pressed");
-        
+
     }
 }
