@@ -5,8 +5,6 @@ import exceptions.InvalidTargetException;
 import exceptions.NotEnoughActionsException;
 import javafx.scene.control.Button;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
@@ -14,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -24,7 +23,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
 import model.characters.Direction;
 // importing character classes
 import model.characters.Hero;
@@ -32,10 +30,10 @@ import model.characters.Zombie;
 import model.world.CharacterCell;
 import model.world.CollectibleCell;
 import model.world.TrapCell;
-
 // importing game related classes
 import engine.Game;
 import gui.Buttons;
+
 
 // importing world related classes
 //more imports
@@ -47,7 +45,7 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
+    static String pathToHeroes = "C:\\Users\\mizon\\Favorites\\Downloads\\GUC_402_59_30348_2023-03-16T15_31_00 (2)\\Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
@@ -55,8 +53,7 @@ public class GameView {
     public static ImageView emptyImg;
     public static VBox vbox;
     public static ComboBox combobox;
-	public static Label exceptionLabel = new Label("");
-
+    public static BorderPane border;
     public static Scene startScreen(Stage primaryStage) {
         // main pane
         StackPane stackPane = new StackPane();
@@ -213,11 +210,10 @@ public class GameView {
     }
 
     public static Scene gameScreen(){
-        BorderPane border = new BorderPane();
-        border.setLeft(HUD.hudHero());
+         border = new BorderPane();
+        border.setLeft(HUD.hudHero);
         border.setCenter(map());
         border.setRight(hudBasic());
-		border.setBottom(exceptionLabel);
         Scene scene = new Scene(border, 1000, 1000);
         updatemap();
         return scene;
@@ -248,7 +244,6 @@ public class GameView {
         return grid;
     }
 
-
     public static Node hudBasic(){
         vbox = new VBox();
         vbox.setSpacing(0);
@@ -276,10 +271,12 @@ public class GameView {
             System.out.println("Button 2 pressed");
 		vbox.getChildren().clear();
 		vbox.getChildren().add(HUD.hudAttack());
-		updatemap();
+		
         });
         button3.setOnAction(e -> {
             System.out.println("Button 3 pressed");
+            vbox.getChildren().clear();
+    		vbox.getChildren().add(HUD.hudCure());
         });
         button4.setOnAction(e -> {
             System.out.println("Button 4 pressed");
@@ -311,6 +308,7 @@ public class GameView {
                 }
                 vbox.getChildren().clear();;
                 vbox.getChildren().add(hudBasic());
+                updatemap();
             }
         });
 
@@ -358,6 +356,7 @@ public class GameView {
 
             }
         }
+        border.setLeft(HUD.hudHero());
     }
     	public static Node moves(){
 		VBox directions = new VBox();
