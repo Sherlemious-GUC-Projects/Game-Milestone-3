@@ -87,6 +87,7 @@ public abstract class Hero extends Character {
 		else if (Game.map[tX][tY] instanceof CollectibleCell) {
 			((CollectibleCell) Game.map[tX][tY]).getCollectible().pickUp(this);
 		} else if (Game.map[tX][tY] instanceof TrapCell) {
+			gui.Buttons.Flag=true;
 			this.setCurrentHp(this.getCurrentHp() - ((TrapCell) Game.map[tX][tY]).getTrapDamage());
 		}
 		Game.map[getLocation().x][getLocation().y] = new CharacterCell(null);
