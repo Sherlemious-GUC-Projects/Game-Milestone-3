@@ -23,6 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import model.characters.Direction;
 // importing character classes
 import model.characters.Hero;
 import model.characters.Zombie;
@@ -36,6 +37,7 @@ import engine.Game;
 //more imports
 import java.io.IOException;
 import java.util.ArrayList;
+
 
 
 public class GameView {
@@ -180,7 +182,7 @@ public class GameView {
                     }
                     if(hero.getName().equals(characterSelection.valueProperty().getValue())){
                         Game.startGame(hero);
-
+                        current_hero=hero;
                         primaryStage.setScene(gameScreen());
                     }
                 }
@@ -205,7 +207,6 @@ public class GameView {
 
     public static Scene gameScreen(){
         BorderPane border = new BorderPane();
-        border.setLeft(HUD.hudHero());
         border.setCenter(map());
         border.setRight(hudBasic());
         Scene scene = new Scene(border, 900, 800);
@@ -219,7 +220,7 @@ public class GameView {
             for (int j = 0; j < 15 ; j++) {
                 StackPane cell = new StackPane();
                 grid.add(cell, i, j);
-                cells[i][14-j]= cell;
+                cells[14-j][i]= cell;
             }
         }
         return grid;
@@ -245,6 +246,8 @@ public class GameView {
 
         button1.setOnAction(e -> {
             System.out.println("Button 1 pressed");
+            Buttons.endTurnButton();
+			updatemap();
         });
         button2.setOnAction(e -> {
             System.out.println("Button 2 pressed");
@@ -253,7 +256,9 @@ public class GameView {
             System.out.println("Button 3 pressed");
         });
         button4.setOnAction(e -> {
-            System.out.println("Button 4 pressed");
+            System.out.println("Button 4 pressed")
+			vbox.getChildren().clear();
+			vbox.getChildren().add(moves());
         });
         button5.setOnAction(e -> {
             System.out.println("Button 5 pressed");
@@ -328,5 +333,50 @@ public class GameView {
             }
         }
     }
+    	public static Node moves(){
+		VBox directions = new VBox();
+		Button up = new Button("Up");
+		Button down = new Button("Down");
+		Button left = new Button("Left");
+		Button right = new Button("Right");
+		up.setMinSize(100, 100);
+		down.setMinSize(100, 100);
+		left.setMinSize(100, 100);
+		right.setMinSize(100, 100);
+		up.setOnAction(e -> {
+			System.out.println("Button 2 pressed");
+			Direction d = Direction.UP;
+			Buttons.moveButton(current_hero, d);
+			updatemap();
+			vbox.getChildren().clear();
+			vbox.getChildren().add(hudBasic());
+		});
+		down.setOnAction(e -> {
+			System.out.println("Button 2 pressed");
+			Direction d = Direction.DOWN;
+			Buttons.moveButton(current_hero, d);
+			updatemap();
+			vbox.getChildren().clear();
+			vbox.getChildren().add(hudBasic());
+		});
+		left.setOnAction(e -> {
+			System.out.println("Button 2 pressed");
+			Direction d = Direction.LEFT;
+			Buttons.moveButton(current_hero, d);
+			updatemap();
+			vbox.getChildren().clear();
+			vbox.getChildren().add(hudBasic());
+		});
+		right.setOnAction(e -> {
+			System.out.println(current_hero.getName());
+			Direction d = Direction.RIGHT;
+			Buttons.moveButton(current_hero, d);
+			updatemap();
+			vbox.getChildren().clear();
+			vbox.getChildren().add(hudBasic());
+		});
+		directions.getChildren().addAll(up,down,left,right);
+		return directions;
+	}
 
 }
