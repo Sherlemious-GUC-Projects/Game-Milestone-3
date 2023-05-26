@@ -227,10 +227,24 @@ public class GameView {
                 StackPane cell = new StackPane();
                 grid.add(cell, i, j);
                 cells[14-j][i]= cell;
+                
+               cell.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        StackPane temp = ((StackPane)mouseEvent.getSource());
+                        int i = 14-GridPane.getRowIndex(temp);
+                        int j = GridPane.getColumnIndex(temp);
+                        if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Zombie ){
+                        	current_zombie = (Zombie) ((CharacterCell) Game.map[i][j]).getCharacter();
+                        	System.out.print(current_zombie.getName());
+                        }
+                    }
+                });
             }
         }
         return grid;
     }
+
 
     public static Node hudBasic(){
         vbox = new VBox();
