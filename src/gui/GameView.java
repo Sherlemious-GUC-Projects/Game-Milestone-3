@@ -46,6 +46,8 @@ public class GameView {
 	public static ImageView heroimg;
 	public static ImageView zombieimg;
 	public static ImageView Collectibleimg;
+	public static ImageView emptyimg;
+	public static VBox vbox; 
 	public static Scene startScreen(Stage primaryStage) {
 		// tst 3
 		// main pane
@@ -205,7 +207,7 @@ public class GameView {
         border.setCenter(map());
         border.setRight(hudBasic());
         Scene scene = new Scene(border, 900, 800);
-        
+        updatemap();   
 		return scene;
 	}
 
