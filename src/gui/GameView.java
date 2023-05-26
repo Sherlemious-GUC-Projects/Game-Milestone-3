@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 public class GameView {
 	static String pathToHeroes = "gui/data/Heros.csv";
-	public static Scene startScreen() {
+	public static Scene startScreen(Stage primaryStage) {
 		// main pane
 		StackPane stackPane = new StackPane();
 
@@ -150,7 +150,7 @@ public class GameView {
 		
 		//Load Heroes
 		try{
-	        Game.loadHeroes(pathToHeroes);
+			Game.loadHeroes(pathToHeroes);
 		}catch(IOException e){
 	        	System.out.print("you problem");
 				System.out.print(e.getMessage());
@@ -169,6 +169,7 @@ public class GameView {
 				    }
 				    if(hero.getName().equals(characterSelection.valueProperty().getValue())){
 				    	Game.startGame(hero);
+						primaryStage.setScene(gameScreen());
 				    }
 				}
 			System.out.println("Game started");
@@ -185,11 +186,12 @@ public class GameView {
 
 		// initializing scene
 		Scene startScreen = new Scene(stackPane, 900, 800);
+		primaryStage.setScene(startScreen);
 
 		return startScreen;
 	}
 
-	public static Scene game(){
+	public static Scene gameScreen(){
 		BorderPane border = new BorderPane();
         border.setCenter(map());
         border.setRight(hudBasic());
@@ -214,13 +216,7 @@ public class GameView {
 	public static Node hudBasic(){
 		VBox vbox = new VBox();
 		vbox.setSpacing(0);
-		//image
-		//Image img = new Image("data/file.jpg");
-		//ImageView imgView = new ImageView(img);
-		//imgView.setFitHeight(100);
-		//imgView.setFitWidth(100);
-		Button button1 = new Button("");
-		//button1.setGraphic(imgView);
+		Button button1 = new Button("End Turn");
 		Button button2 = new Button("Attack");
 		Button button3 = new Button("Cure");
 		Button button4 = new Button("Move");

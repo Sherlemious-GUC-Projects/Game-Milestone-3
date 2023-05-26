@@ -7,13 +7,10 @@ import gui.GameView;
 import engine.Game;
 
 public class Main extends Application {
-	static String heroName;
 	@Override
 	public void start(Stage primaryStage) {
-		Scene startScreen = GameView.startScreen();
-		primaryStage.setScene(startScreen);
+		Scene startScreen = GameView.startScreen(primaryStage);
 		primaryStage.show();
-		System.out.println(Game.Heroes);
 	}
 
 	public static void main(String[] args) {
