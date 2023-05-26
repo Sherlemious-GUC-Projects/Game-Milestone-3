@@ -53,3 +53,4 @@ bin/engine/Game.class
 .idea/libraries/greenmail_1_6_11.xml
 .idea/modules.xml
 .idea/misc.xml
+*.xml
