@@ -33,6 +33,7 @@ import engine.Game;
 //more imports 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 
 public class GameView {
@@ -156,19 +157,22 @@ public class GameView {
 		}
 
 		//start button
+		ArrayList<Hero> availableHeroes = Game.availableHeroes;
 		Button startButton = new Button("Start");
 		startButton.setOnAction(e -> {
-			if(characterSelection.valueProperty().getValue()!=null)
-				for (Iterator<Hero> iterator = Game.availableHeroes.iterator(); iterator.hasNext();) {
-				    Hero hero = iterator.next();
+			if(characterSelection.valueProperty().getValue() != null)
+				for (int i = 0; i < availableHeroes.size(); i++) {
+					Hero hero = availableHeroes.get(i);
 				    if (hero==null) {
 				        // Remove the current element from the iterator and the list.
-				        iterator.remove();
+						availableHeroes.remove(i);
 				    }
 				    if(hero.getName().equals(characterSelection.valueProperty().getValue())){
 				    	Game.startGame(hero);
 				    }
 				}
+			System.out.println("Game started");
+			System.out.println("Hero selected: " + Game.heroes.get(0).getName());
 		});
 		
 		//adding character selection to pane
