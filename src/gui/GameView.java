@@ -20,12 +20,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.characters.Direction;
 // importing character classes
 import model.characters.Hero;
+import model.characters.Medic;
 import model.characters.Zombie;
 import model.world.CharacterCell;
 import model.world.CollectibleCell;
@@ -33,6 +36,8 @@ import model.world.TrapCell;
 // importing game related classes
 import engine.Game;
 import gui.Buttons;
+
+
 
 
 // importing world related classes
@@ -45,7 +50,7 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
+    static String pathToHeroes = "C:\\Users\\mizon\\Favorites\\Downloads\\GUC_402_59_30348_2023-03-16T15_31_00 (2)\\Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
@@ -54,6 +59,7 @@ public class GameView {
     public static VBox vbox;
     public static ComboBox combobox;
     public static BorderPane border;
+    
     public static Scene startScreen(Stage primaryStage) {
         // main pane
         StackPane stackPane = new StackPane();
@@ -237,6 +243,11 @@ public class GameView {
                         	current_zombie = (Zombie) ((CharacterCell) Game.map[i][j]).getCharacter();
                         	System.out.print(current_zombie.getName());
                         }
+                        if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Hero ){
+                        	current_hero = (Hero) ((CharacterCell) Game.map[i][j]).getCharacter();
+                        	updatemap();
+                        	System.out.print(current_hero.getName());
+                        }
                     }
                 });
             }
@@ -285,13 +296,22 @@ public class GameView {
         });
         button5.setOnAction(e -> {
             System.out.println("Button 5 pressed");
+            if(current_hero instanceof Medic){
+            	vbox.getChildren().clear();
+    			vbox.getChildren().add(HUD.hudSpecial(current_hero));
+            }
+            else{
+            	Buttons.specialButtonFE();
+            }
         });
         button6.setOnAction(e -> {
             vbox.getChildren().clear();
             vbox.getChildren().add(heroes());
         });
-
+        
+       
         border.setBottom(Buttons.alert);
+
         return vbox;
     }
 
