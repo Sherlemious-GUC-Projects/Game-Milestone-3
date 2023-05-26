@@ -10,7 +10,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		Scene startScreen = GameView.startScreen(primaryStage);
+		primaryStage.setTitle("The Last of Us by team 61");
 		primaryStage.show();
+
 	}
 
 	public static void main(String[] args) {
