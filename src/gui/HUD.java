@@ -16,6 +16,7 @@ public class HUD {
         VBox characterInfo = new VBox();
         characterInfo.setStyle("-fx-background-color: #937e7e;");
         characterInfo.setAlignment(Pos.TOP_CENTER);
+        characterInfo.setSpacing(10);
         Label characterName = new Label("Name: " + currentHero.getName());
         Label characterHealth = new Label("HP: " + currentHero.getCurrentHp() + "/" + currentHero.getMaxHp());
         Label characterAttackDamage = new Label("Attack Damage: " + currentHero.getAttackDmg());
@@ -35,6 +36,7 @@ public class HUD {
         characterAttackDamage.setTranslateY(-250);
         characterNumberOfMoves.setTranslateY(-225);
         characterType.setTranslateY(-200);
+        characterInfo.autosize();
         return characterInfo;
     }
 
