@@ -41,7 +41,8 @@ public class GameView {
 	public static ImageView zombieImg;
 	public static ImageView CollectibleImg;
 	public static ImageView emptyImg;
-	public static VBox vbox; 
+	public static VBox vbox;
+	public static ComboBox combobox;
 	public static Scene startScreen(Stage primaryStage) {
 
 		// main pane
@@ -217,7 +218,7 @@ public class GameView {
 	}
 
 	public static Node hudBasic(){
-		VBox vbox = new VBox();
+		vbox = new VBox();
 		vbox.setSpacing(0);
 		Button button1 = new Button("End Turn");
 		Button button2 = new Button("Attack");
@@ -259,16 +260,23 @@ public class GameView {
 	}
 
 	public static Node heroes(){
-		ComboBox comboBox = new ComboBox();
-		for(Hero hero : Game.availableHeroes) {
-            comboBox.getItems().add(hero.getName());
+		combobox = new ComboBox();
+		for(Hero hero : Game.heroes) {
+            combobox.getItems().add(hero.getName());
         }
-		comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-			
-			
-		});
+		 combobox.setOnAction(new EventHandler<ActionEvent>(){
+			 public void handle(ActionEvent event){
+				 
+				 for(Hero hero : Game.heroes) {
+			            if(hero.getName().equals(combobox.valueProperty().get())) current_hero= hero;
+			        }
+				 vbox.getChildren().clear();;
+				 vbox.getChildren().add(hudBasic());
+		 }
+		 });
 		
-		return comboBox;
+		
+		return combobox;
 	}
 
 	public static Scene endScreen(boolean isWinner){
