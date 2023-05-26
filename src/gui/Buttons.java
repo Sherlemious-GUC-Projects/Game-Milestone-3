@@ -5,11 +5,9 @@ import model.characters.Hero;
 import model.characters.Direction;
 import model.characters.Zombie;
 import exceptions.InvalidTargetException;
+import exceptions.NoAvailableResourcesException;
 import exceptions.NotEnoughActionsException;
 import exceptions.MovementException;
-import exceptions.NoAvailableResourcesException;
-import exceptions.InvalidTargetException;
-
 
 public class Buttons {
     public static void endTurnButton(){
@@ -22,68 +20,57 @@ public class Buttons {
             else if(Game.checkGameOver()){
                 GameView.endScreen(false);
             }
-			GameView.exceptionLabel.setText("");
-        } catch (NotEnoughActionsException e) {
-			GameView.exceptionLabel.setText(e.getMessage());
-        } catch (InvalidTargetException e) {
-			GameView.exceptionLabel.setText(e.getMessage());
+        } catch (NotEnoughActionsException ex) {
+            ex.printStackTrace();
+        } catch (InvalidTargetException ex) {
+            ex.printStackTrace();
         }
     }
-
     public static void moveButton(Hero h,Direction d){
         System.out.println("Move Button pressed");
         try{
-			GameView.exceptionLabel.setText("");
         	h.move(d);
         }catch(NotEnoughActionsException e){
         	GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.moves());
-			GameView.exceptionLabel.setText(e.getMessage());
-
+        	e.printStackTrace();
         } catch (MovementException e) {
         	GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
-			GameView.exceptionLabel.setText(e.getMessage());
+			e.printStackTrace();
 		}
-    }
+        
+        
 
+    }
 	public static void AttackButton(Hero h , Zombie z){
     	try{
     		h.setTarget(z);
     		h.attack();
-			GameView.exceptionLabel.setText("");
     	}catch(NotEnoughActionsException e){
-			GameView.exceptionLabel.setText(e.getMessage());
-    		GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic());
+    		e.printStackTrace();
     	} catch (InvalidTargetException e) {
-			GameView.exceptionLabel.setText(e.getMessage());
-    		GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic());
-		}
-		finally{
+			e.printStackTrace();
+		}finally{
 			GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
         	GameView.updatemap();
 		}
     }
-
-	public static void cureButton(Hero h){
+	public static void cureButton(Hero h , Zombie z){
 		try{
+			h.setTarget(z);
 			h.cure();
-			GameView.exceptionLabel.setText("");
 		}catch(NotEnoughActionsException e){
-			GameView.exceptionLabel.setText(e.getMessage());
+			e.printStackTrace();
+		} catch (NoAvailableResourcesException e) {
+			e.printStackTrace();
+		} catch (InvalidTargetException e) {
+			e.printStackTrace();
+		}finally{
 			GameView.vbox.getChildren().clear();
-			GameView.vbox.getChildren().add(GameView.hudBasic());
-		}catch(InvalidTargetException e){
-			GameView.exceptionLabel.setText(e.getMessage());
-			GameView.vbox.getChildren().clear();
-			GameView.vbox.getChildren().add(GameView.hudBasic());
-		}catch(NoAvailableResourcesException e){
-			GameView.exceptionLabel.setText(e.getMessage());
-			GameView.vbox.getChildren().clear();
-			GameView.vbox.getChildren().add(GameView.hudBasic());	
+        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.updatemap();
 		}
 	}
 }
