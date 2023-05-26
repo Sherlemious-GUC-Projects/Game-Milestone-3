@@ -207,6 +207,7 @@ public class GameView {
 
     public static Scene gameScreen(){
         BorderPane border = new BorderPane();
+        border.setLeft(HUD.hudHero());
         border.setCenter(map());
         border.setRight(hudBasic());
         Scene scene = new Scene(border, 900, 800);
@@ -256,7 +257,7 @@ public class GameView {
             System.out.println("Button 3 pressed");
         });
         button4.setOnAction(e -> {
-            System.out.println("Button 4 pressed")
+            System.out.println("Button 4 pressed");
 			vbox.getChildren().clear();
 			vbox.getChildren().add(moves());
         });
