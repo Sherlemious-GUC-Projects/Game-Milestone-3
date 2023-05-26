@@ -291,7 +291,7 @@ public class GameView {
             vbox.getChildren().add(heroes());
         });
 
-
+        border.setBottom(Buttons.alert);
         return vbox;
     }
 
