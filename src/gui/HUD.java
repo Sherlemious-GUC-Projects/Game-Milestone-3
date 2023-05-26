@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.control.Button;
 import model.characters.Hero;
 import model.characters.Zombie;
 
@@ -40,25 +41,16 @@ public class HUD {
         return characterInfo;
     }
     public static Node hudAttack(){
-	    	VBox attacks = new VBox();
-	    	ComboBox zombos = new ComboBox();
-	    	attacks.getChildren().add(zombos);
-	    	for(Zombie z : Game.zombies) {
-	            zombos.getItems().add(z.getName());
-	        }
-	    	zombos.setOnAction(new EventHandler<ActionEvent>(){
-				 public void handle(ActionEvent event){
-					 
-					 for(Zombie z : Game.zombies) {
-				            if(z.getName().equals(zombos.valueProperty().get())){ GameView.current_zombie= z;
-				            Buttons.AttackButton(GameView.current_hero, GameView.current_zombie);}
-				        }
-					 
-					 GameView.vbox.getChildren().clear();;
-					 GameView.vbox.getChildren().add(GameView.hudBasic());
-			 }
-			 });
-	    	return attacks;
-	    }
+    	    VBox v = new VBox();
+    	    Button b = new Button("Atack!!!");
+    	    b.setMinSize(100, 100);
+    	    v.setSpacing(10);
+	    	Label l = new Label("please select a zombie");
+	    	b.setOnAction(e -> {
+	            Buttons.AttackButton(GameView.current_hero, GameView.current_zombie);
+	        });
+	    	v.getChildren().addAll(l,b);
+	    	return v;
+    }
 
 }
