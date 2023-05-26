@@ -7,6 +7,9 @@ import model.characters.Zombie;
 import exceptions.InvalidTargetException;
 import exceptions.NotEnoughActionsException;
 import exceptions.MovementException;
+import exceptions.NoAvailableResourcesException;
+import exceptions.InvalidTargetException;
+
 
 public class Buttons {
     public static void endTurnButton(){
@@ -59,4 +62,23 @@ public class Buttons {
         	GameView.vbox.getChildren().add(GameView.hudBasic());
 		}
     }
+
+	public static void cureButton(Hero h){
+		try{
+			h.cure();
+			GameView.exceptionLabel.setText("");
+		}catch(NotEnoughActionsException e){
+			GameView.exceptionLabel.setText(e.getMessage());
+			GameView.vbox.getChildren().clear();
+			GameView.vbox.getChildren().add(GameView.hudBasic());
+		}catch(InvalidTargetException e){
+			GameView.exceptionLabel.setText(e.getMessage());
+			GameView.vbox.getChildren().clear();
+			GameView.vbox.getChildren().add(GameView.hudBasic());
+		}catch(NoAvailableResourcesException e){
+			GameView.exceptionLabel.setText(e.getMessage());
+			GameView.vbox.getChildren().clear();
+			GameView.vbox.getChildren().add(GameView.hudBasic());	
+		}
+	}
 }
