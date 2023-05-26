@@ -1,7 +1,9 @@
 package gui;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import engine.Game;
+import javafx.scene.text.Font;
 import model.characters.Hero;
 import model.characters.Direction;
 import model.characters.Zombie;
@@ -22,10 +24,18 @@ public class Buttons {
             else if(Game.checkGameOver()){
                 GameView.endScreen(false);
             }
-        } catch (NotEnoughActionsException ex) {
-            alert=new Label(ex.getMessage());
-        } catch (InvalidTargetException ex) {
-        	alert=new Label(ex.getMessage());
+        } catch (NotEnoughActionsException e) {
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
+        } catch (InvalidTargetException e) {
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
         }
     }
     public static void moveButton(Hero h,Direction d){
@@ -33,11 +43,17 @@ public class Buttons {
         try{
         	h.move(d);
         }catch(NotEnoughActionsException e){
-        	
-        	alert=new Label(e.getMessage());
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
         } catch (MovementException e) {
-        	
-        	alert=new Label(e.getMessage());
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
 		} finally{
 			GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
@@ -52,9 +68,17 @@ public class Buttons {
     		h.setTarget(z);
     		h.attack();
     	}catch(NotEnoughActionsException e){
-    		alert=new Label(e.getMessage());
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
     	} catch (InvalidTargetException e) {
-    		alert=new Label(e.getMessage());
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
 		}finally{
 			GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
@@ -66,11 +90,23 @@ public class Buttons {
 			h.setTarget(z);
 			h.cure();
 		}catch(NotEnoughActionsException e){
-			alert=new Label(e.getMessage());
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
 		} catch (NoAvailableResourcesException e) {
-			alert=new Label(e.getMessage());
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
 		} catch (InvalidTargetException e) {
-			alert=new Label(e.getMessage());
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 35));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
 		}finally{
 			GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
