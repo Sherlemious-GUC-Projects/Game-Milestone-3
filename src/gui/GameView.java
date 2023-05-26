@@ -233,7 +233,6 @@ public class GameView {
 
 	public static Node hudBasic(){
 		vbox = new VBox();
-		VBox vbox = new VBox();
 		vbox.autosize();
 		vbox.setSpacing(0);
 		Button button1 = new Button("End Turn");
