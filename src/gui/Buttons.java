@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.scene.control.Label;
 import engine.Game;
 import model.characters.Hero;
 import model.characters.Direction;
@@ -10,6 +11,7 @@ import exceptions.NotEnoughActionsException;
 import exceptions.MovementException;
 
 public class Buttons {
+	public static Label alert;
     public static void endTurnButton(){
         System.out.println("End Turn Button Pressed");
         try {
@@ -21,9 +23,9 @@ public class Buttons {
                 GameView.endScreen(false);
             }
         } catch (NotEnoughActionsException ex) {
-            ex.printStackTrace();
+            alert=new Label(ex.getMessage());
         } catch (InvalidTargetException ex) {
-            ex.printStackTrace();
+        	alert=new Label(ex.getMessage());
         }
     }
     public static void moveButton(Hero h,Direction d){
@@ -31,13 +33,15 @@ public class Buttons {
         try{
         	h.move(d);
         }catch(NotEnoughActionsException e){
-        	GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.moves());
-        	e.printStackTrace();
+        	
+        	alert=new Label(e.getMessage());
         } catch (MovementException e) {
-        	GameView.vbox.getChildren().clear();
+        	
+        	alert=new Label(e.getMessage());
+		} finally{
+			GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
-			e.printStackTrace();
+        	GameView.updatemap();
 		}
         
         
@@ -48,9 +52,9 @@ public class Buttons {
     		h.setTarget(z);
     		h.attack();
     	}catch(NotEnoughActionsException e){
-    		e.printStackTrace();
+    		alert=new Label(e.getMessage());
     	} catch (InvalidTargetException e) {
-			e.printStackTrace();
+    		alert=new Label(e.getMessage());
 		}finally{
 			GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
@@ -62,11 +66,11 @@ public class Buttons {
 			h.setTarget(z);
 			h.cure();
 		}catch(NotEnoughActionsException e){
-			e.printStackTrace();
+			alert=new Label(e.getMessage());
 		} catch (NoAvailableResourcesException e) {
-			e.printStackTrace();
+			alert=new Label(e.getMessage());
 		} catch (InvalidTargetException e) {
-			e.printStackTrace();
+			alert=new Label(e.getMessage());
 		}finally{
 			GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
