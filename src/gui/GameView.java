@@ -276,6 +276,7 @@ public class GameView {
             System.out.println("Button 2 pressed");
 		vbox.getChildren().clear();
 		vbox.getChildren().add(HUD.hudAttack());
+		updatemap();
         });
         button3.setOnAction(e -> {
             System.out.println("Button 3 pressed");
