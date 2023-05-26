@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = System.getProperty("user.dir") + "/gui/data/Heros.csv";
+    static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
