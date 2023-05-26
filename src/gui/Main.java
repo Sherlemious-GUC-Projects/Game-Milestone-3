@@ -12,6 +12,7 @@ public class Main extends Application {
 		Scene startScreen = GameView.startScreen(primaryStage);
 		primaryStage.setTitle("The Last of Us by team 61");
 		primaryStage.show();
+		primaryStage.setFullScreen(true);
 
 	}
 

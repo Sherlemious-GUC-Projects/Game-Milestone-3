@@ -185,6 +185,7 @@ public class GameView {
                         Game.startGame(hero);
                         current_hero=hero;
                         primaryStage.setScene(gameScreen());
+                        primaryStage.setFullScreen(true);
                     }
                 }
 				System.out.println("Game started");
@@ -212,7 +213,7 @@ public class GameView {
         border.setLeft(HUD.hudHero());
         border.setCenter(map());
         border.setRight(hudBasic());
-        Scene scene = new Scene(border, 900, 800);
+        Scene scene = new Scene(border, 1000, 1000);
         updatemap();
         return scene;
     }
