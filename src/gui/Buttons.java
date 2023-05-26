@@ -21,8 +21,21 @@ public class Buttons {
             ex.printStackTrace();
         }
     }
-    public static void moveButton(){
+    public static void moveButton(Hero h,Direction d){
         System.out.println("Move Button pressed");
+        try{
+        	h.move(d);
+        }catch(NotEnoughActionsException e){
+        	GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.moves());
+        	e.printStackTrace();
+        } catch (MovementException e) {
+        	GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.moves());
+			e.printStackTrace();
+		}
+        
+        
 
     }
 }
