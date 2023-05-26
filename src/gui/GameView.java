@@ -1,6 +1,8 @@
 package gui;
 
 // importing gui related classes
+import exceptions.InvalidTargetException;
+import exceptions.NotEnoughActionsException;
 import javafx.scene.control.Button;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -35,13 +37,13 @@ public class GameView {
 	public static Zombie current_zombie;
 	static String pathToHeroes = "A:\\University\\Uni Work\\Projects\\Game\\Milestone 3\\bin\\gui\\data\\Heros.csv";
 	public static StackPane[][] cells = new StackPane[15][15];
-	public static ImageView heroimg;
-	public static ImageView zombieimg;
-	public static ImageView Collectibleimg;
-	public static ImageView emptyimg;
+	public static ImageView heroImg;
+	public static ImageView zombieImg;
+	public static ImageView CollectibleImg;
+	public static ImageView emptyImg;
 	public static VBox vbox; 
 	public static Scene startScreen(Stage primaryStage) {
-		// tst 3
+
 		// main pane
 		StackPane stackPane = new StackPane();
 
@@ -155,7 +157,6 @@ public class GameView {
 		try{
 			Game.loadHeroes(pathToHeroes);
 		}catch(IOException e){
-	        	System.out.print("you problem");
 				System.out.print(e.getMessage());
 		}
 
@@ -285,27 +286,27 @@ public class GameView {
 	public static void updatemap(){
 		for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15 ; j++) {
-            	emptyimg = new ImageView(new Image("gui/data/emptycell.png"));
+            	emptyImg = new ImageView(new Image("gui/data/emptycell.png"));
             	if(Game.map[i][j].isVisible()){
             		if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Zombie ){
-                		zombieimg = new ImageView(new Image("gui/data/zombie.png"));
-                		cells[i][j].getChildren().add(zombieimg);
+                		zombieImg = new ImageView(new Image("gui/data/zombie.png"));
+                		cells[i][j].getChildren().add(zombieImg);
                    }
                 	if(Game.map[i][j] instanceof CollectibleCell ){
-                		Collectibleimg = new ImageView(new Image("gui/data/collectible.png"));
-                		cells[i][j].getChildren().add(Collectibleimg);
+                		CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
+                		cells[i][j].getChildren().add(CollectibleImg);
                 	}
                 	if(Game.map[i][j] instanceof TrapCell ||(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter()==null) ){
-                		emptyimg = new ImageView(new Image("gui/data/emptycell.png"));
-                		cells[i][j].getChildren().add(emptyimg);
+                		emptyImg = new ImageView(new Image("gui/data/emptycell.png"));
+                		cells[i][j].getChildren().add(emptyImg);
                 	}
                 	if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Hero ){
-                		heroimg = new ImageView(new Image("gui/data/hero.png"));
-                		cells[i][j].getChildren().add(heroimg);
+                		heroImg = new ImageView(new Image("gui/data/hero.png"));
+                		cells[i][j].getChildren().add(heroImg);
                    }
             	}else{
-            		emptyimg = new ImageView(new Image("gui/data/emptycell.png"));
-            		cells[i][j].getChildren().add(emptyimg);
+            		emptyImg = new ImageView(new Image("gui/data/emptycell.png"));
+            		cells[i][j].getChildren().add(emptyImg);
             	}
 
                }
