@@ -1,13 +1,17 @@
 package gui;
 
 import engine.Game;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import model.characters.Hero;
+import model.characters.Zombie;
 
 public class HUD {
     public static Hero currentHero = GameView.current_hero;
@@ -35,5 +39,26 @@ public class HUD {
         characterInfo.autosize();
         return characterInfo;
     }
+    public static Node hudAttack(){
+	    	VBox attacks = new VBox();
+	    	ComboBox zombos = new ComboBox();
+	    	attacks.getChildren().add(zombos);
+	    	for(Zombie z : Game.zombies) {
+	            zombos.getItems().add(z.getName());
+	        }
+	    	zombos.setOnAction(new EventHandler<ActionEvent>(){
+				 public void handle(ActionEvent event){
+					 
+					 for(Zombie z : Game.zombies) {
+				            if(z.getName().equals(zombos.valueProperty().get())){ GameView.current_zombie= z;
+				            Buttons.AttackButton(GameView.current_hero, GameView.current_zombie);}
+				        }
+					 
+					 GameView.vbox.getChildren().clear();;
+					 GameView.vbox.getChildren().add(GameView.hudBasic());
+			 }
+			 });
+	    	return attacks;
+	    }
 
 }
