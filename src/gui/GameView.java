@@ -44,7 +44,10 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = "gui/data/Heros.csv";
+    // Get the current file path
+    static String pathToHeroes = System.getProperty("user.dir") + "\\src\\gui\\data\\Heros.csv";
+
+//    static String pathToHeroes = "A:\\University\\Uni Work\\Projects\\Game\\Milestone 3\\bin\\gui\\data\\Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
