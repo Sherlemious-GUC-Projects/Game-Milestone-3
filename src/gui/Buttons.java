@@ -14,6 +14,7 @@ import exceptions.MovementException;
 
 public class Buttons {
 	public static Label alert;
+	public static Boolean Flag;
     public static void endTurnButton(){
         System.out.println("End Turn Button Pressed");
         try {
@@ -40,8 +41,10 @@ public class Buttons {
     }
     public static void moveButton(Hero h,Direction d){
         System.out.println("Move Button pressed");
+	Flag= false;
         try{
         	h.move(d);
+		if(Flag)alert = new Label("You Walked Into a Trap!!!");
         }catch(NotEnoughActionsException e){
 			Label message=new Label(e.getMessage());
 			message.setFont(new Font("Arial", 30));
@@ -98,6 +101,49 @@ public class Buttons {
 		} catch (NoAvailableResourcesException e) {
 			Label message=new Label(e.getMessage());
 			message.setFont(new Font("Arial", 30));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
+		} catch (InvalidTargetException e) {
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 35));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
+		}finally{
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.updatemap();
+		}
+	}
+	public static void specialButtonFE(){
+		try{
+			GameView.current_hero.useSpecial();
+		}catch (NoAvailableResourcesException e) {
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 35));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
+		} catch (InvalidTargetException e) {
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 35));
+			message.setAlignment(Pos.TOP_CENTER);
+			message.setMinSize(200, 200);
+			alert=message;
+		}finally{
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.updatemap();
+		}
+	}
+	public static void specialButtonM(Hero h, Hero h1){
+		try{
+			h.setTarget(h1);
+			GameView.current_hero.useSpecial();
+		}catch (NoAvailableResourcesException e) {
+			Label message=new Label(e.getMessage());
+			message.setFont(new Font("Arial", 35));
 			message.setAlignment(Pos.TOP_CENTER);
 			message.setMinSize(200, 200);
 			alert=message;
