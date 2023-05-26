@@ -209,6 +209,7 @@ public class GameView {
 
     public static Scene gameScreen(){
         BorderPane border = new BorderPane();
+        border.setLeft(HUD.hudHero());
         border.setCenter(map());
         border.setRight(hudBasic());
         Scene scene = new Scene(border, 900, 800);

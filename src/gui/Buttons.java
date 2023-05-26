@@ -5,6 +5,11 @@ import model.characters.Hero;
 import model.characters.Direction;
 import exceptions.InvalidTargetException;
 import exceptions.NotEnoughActionsException;
+<<<<<<< HEAD
+=======
+import model.characters.Hero;
+import model.characters.Direction;
+>>>>>>> ae6e72083304d12ed5aea009b691087dec192234
 import exceptions.MovementException;
 
 public class Buttons {

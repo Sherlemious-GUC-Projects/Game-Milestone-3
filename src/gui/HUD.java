@@ -14,8 +14,9 @@ public class HUD {
     public static Node hudHero(){
         currentHero = GameView.current_hero;
         VBox characterInfo = new VBox();
-        characterInfo.setStyle("-fx-background-color: #937e7e;");
+        characterInfo.setStyle("-fx-background-color: #6b6b6b;");
         characterInfo.setAlignment(Pos.TOP_CENTER);
+        characterInfo.setSpacing(10);
         Label characterName = new Label("Name: " + currentHero.getName());
         Label characterHealth = new Label("HP: " + currentHero.getCurrentHp() + "/" + currentHero.getMaxHp());
         Label characterAttackDamage = new Label("Attack Damage: " + currentHero.getAttackDmg());
@@ -35,6 +36,7 @@ public class HUD {
         characterAttackDamage.setTranslateY(-250);
         characterNumberOfMoves.setTranslateY(-225);
         characterType.setTranslateY(-200);
+        characterInfo.autosize();
         return characterInfo;
     }
 
