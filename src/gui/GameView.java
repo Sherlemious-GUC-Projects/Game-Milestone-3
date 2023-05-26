@@ -232,12 +232,9 @@ public class GameView {
 
 
 	public static Node hudBasic(){
-<<<<<<< Updated upstream
 		vbox = new VBox();
-=======
 		VBox vbox = new VBox();
 		vbox.autosize();
->>>>>>> Stashed changes
 		vbox.setSpacing(0);
 		Button button1 = new Button("End Turn");
 		Button button2 = new Button("Attack");
