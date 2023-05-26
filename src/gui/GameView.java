@@ -180,6 +180,7 @@ public class GameView {
                     }
                     if(hero.getName().equals(characterSelection.valueProperty().getValue())){
                         Game.startGame(hero);
+
                         primaryStage.setScene(gameScreen());
                     }
                 }
@@ -204,6 +205,7 @@ public class GameView {
 
     public static Scene gameScreen(){
         BorderPane border = new BorderPane();
+        border.setLeft(HUD.hudHero());
         border.setCenter(map());
         border.setRight(hudBasic());
         Scene scene = new Scene(border, 900, 800);
