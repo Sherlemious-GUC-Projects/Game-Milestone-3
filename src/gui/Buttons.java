@@ -31,7 +31,7 @@ public class Buttons {
         	e.printStackTrace();
         } catch (MovementException e) {
         	GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.moves());
+        	GameView.vbox.getChildren().add(GameView.hudBasic());
 			e.printStackTrace();
 		}
         
