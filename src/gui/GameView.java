@@ -37,7 +37,13 @@ import java.util.ArrayList;
 
 
 public class GameView {
+	public static Hero current_hero;
+	public static Zombie current_zombie;
 	static String pathToHeroes = "gui/data/Heros.csv";
+	public static StackPane[][] cells = new StackPane[15][15];
+	public static ImageView heroimg;
+	public static ImageView zombieimg;
+	public static ImageView Collectibleimg;
 	public static Scene startScreen(Stage primaryStage) {
 		// tst 3
 		// main pane
@@ -205,12 +211,37 @@ public class GameView {
 		GridPane grid = new GridPane();
 		for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15 ; j++) {
+            	StackPane cell = new StackPane();
                 Rectangle rect = new Rectangle(50, 50);
                 rect.setFill(Color.WHITE);
                 rect.setStroke(Color.BLACK);
-                grid.add(rect, i, j);
+                cell.getChildren().add(rect);
+                grid.add(cell, i, 14-j);
+                cells[i][j]= cell;
             }
         }
+		heroimg = new ImageView(new Image("hero.png"));
+		heroimg.setFitHeight(49);
+		heroimg.setFitWidth(49);
+		cells[0][0].getChildren().add(heroimg);
+		for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15 ; j++) {
+            	if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Zombie ){
+            		zombieimg = new ImageView(new Image("zombie.png"));
+        		    zombieimg.setFitHeight(49);
+        		    zombieimg.setFitWidth(49);
+            		cells[i][j].getChildren().clear();
+            		cells[i][j].getChildren().add(zombieimg);
+               }
+            	if(Game.map[i][j] instanceof CollectibleCell ){
+            		Collectibleimg = new ImageView(new Image("collectible.png"));
+            		Collectibleimg.setFitHeight(49);
+            		Collectibleimg.setFitWidth(49);
+            		cells[i][j].getChildren().clear();
+            		cells[i][j].getChildren().add(Collectibleimg);
+            	}
+            }
+		}
 		return grid;
 	}
 
