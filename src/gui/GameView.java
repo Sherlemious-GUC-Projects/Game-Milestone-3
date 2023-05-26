@@ -21,6 +21,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 // importing character classes
@@ -204,6 +207,8 @@ public class GameView {
 
 	public static Scene gameScreen(){
 		BorderPane border = new BorderPane();
+		border.autosize();
+		border.setLeft(HUD.hudHero());
         border.setCenter(map());
         border.setRight(hudBasic());
         Scene scene = new Scene(border, 900, 800);
@@ -213,18 +218,26 @@ public class GameView {
 
 	public static Node map(){
 		GridPane grid = new GridPane();
+		grid.autosize();
 		for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15 ; j++) {
             	StackPane cell = new StackPane();
                 grid.add(cell, i, j);
                 cells[i][14-j]= cell;
+				cell.autosize();
             }
         }		
 		return grid;
 	}
 
+
 	public static Node hudBasic(){
+<<<<<<< Updated upstream
 		vbox = new VBox();
+=======
+		VBox vbox = new VBox();
+		vbox.autosize();
+>>>>>>> Stashed changes
 		vbox.setSpacing(0);
 		Button button1 = new Button("End Turn");
 		Button button2 = new Button("Attack");
