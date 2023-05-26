@@ -39,6 +39,7 @@ import java.util.ArrayList;
 public class GameView {
 	static String pathToHeroes = "gui/data/Heros.csv";
 	public static Scene startScreen(Stage primaryStage) {
+		// tst
 		// main pane
 		StackPane stackPane = new StackPane();
 
