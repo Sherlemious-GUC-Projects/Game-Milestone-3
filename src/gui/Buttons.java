@@ -21,7 +21,7 @@ public class Buttons {
             ex.printStackTrace();
         }
     }
-    public static void moveButton(){
+    public static void moveButton(Hero h,Direction d){
         System.out.println("Move Button pressed");
         try{
         	h.move(d);
