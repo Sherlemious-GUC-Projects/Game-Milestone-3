@@ -79,4 +79,16 @@ public class HUD {
 	    	v.getChildren().addAll(l,b);
 	    	return v;
 	}
+	public static  Node hudSpecial(Hero h) {
+		 VBox v = new VBox();
+	    Button b = new Button("Specialll!!!");
+	    b.setMinSize(100, 100);
+	    v.setSpacing(10);
+	    	Label l = new Label("please select a Hero");
+	    	b.setOnAction(e -> {
+	            Buttons.specialButtonM(h, GameView.current_hero);
+	        });
+	    	v.getChildren().addAll(l,b);
+	    	return v;
+	}
 }
