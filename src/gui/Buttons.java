@@ -61,6 +61,11 @@ public class Buttons {
     		GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
 		}
+		finally{
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.updatemap();
+		}
     }
 
 	public static void cureButton(Hero h){
