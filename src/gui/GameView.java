@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
+    static String pathToHeroes = System.getProperty("user.dir") + "/gui/data/Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
@@ -191,7 +191,7 @@ public class GameView {
                     if(hero.getName().equals(characterSelection.valueProperty().getValue())){
                         Game.startGame(hero);
                         current_hero=hero;
-                        primaryStage.setScene(gameScreen());
+                        primaryStage.setScene(gameScreen(primaryStage));
                         primaryStage.setFullScreen(true);
                     }
                 }
@@ -215,11 +215,11 @@ public class GameView {
         return startScreen;
     }
 
-    public static Scene gameScreen(){
+    public static Scene gameScreen(Stage primaryStage){
          border = new BorderPane();
         border.setLeft(HUD.hudHero);
         border.setCenter(map());
-        border.setRight(hudBasic());
+        border.setRight(hudBasic(primaryStage));
         Scene scene = new Scene(border, 1000, 1000);
         updatemap();
         return scene;
@@ -255,7 +255,7 @@ public class GameView {
         return grid;
     }
 
-    public static Node hudBasic(){
+    public static Node hudBasic(Stage primaryStage){
         vbox = new VBox();
         vbox.setSpacing(0);
         Button button1 = new Button("End Turn");
@@ -275,38 +275,38 @@ public class GameView {
 
         button1.setOnAction(e -> {
             System.out.println("Button 1 pressed");
-            Buttons.endTurnButton();
+            Buttons.endTurnButton(primaryStage);
 			updatemap();
         });
         button2.setOnAction(e -> {
             System.out.println("Button 2 pressed");
 		vbox.getChildren().clear();
-		vbox.getChildren().add(HUD.hudAttack());
+		vbox.getChildren().add(HUD.hudAttack(primaryStage));
 		
         });
         button3.setOnAction(e -> {
             System.out.println("Button 3 pressed");
             vbox.getChildren().clear();
-    		vbox.getChildren().add(HUD.hudCure());
+    		vbox.getChildren().add(HUD.hudCure(primaryStage));
         });
         button4.setOnAction(e -> {
             System.out.println("Button 4 pressed");
 			vbox.getChildren().clear();
-			vbox.getChildren().add(moves());
+			vbox.getChildren().add(moves(primaryStage));
         });
         button5.setOnAction(e -> {
             System.out.println("Button 5 pressed");
             if(current_hero instanceof Medic){
             	vbox.getChildren().clear();
-    			vbox.getChildren().add(HUD.hudSpecial(current_hero));
+    			vbox.getChildren().add(HUD.hudSpecial(current_hero, primaryStage));
             }
             else{
-            	Buttons.specialButtonFE();
+            	Buttons.specialButtonFE(primaryStage);
             }
         });
         button6.setOnAction(e -> {
             vbox.getChildren().clear();
-            vbox.getChildren().add(heroes());
+            vbox.getChildren().add(heroes(primaryStage));
         });
         
        
@@ -315,7 +315,7 @@ public class GameView {
         return vbox;
     }
 
-    public static Node heroes(){
+    public static Node heroes(Stage primaryStage){
         combobox = new ComboBox();
         for(Hero hero : Game.heroes) {
             combobox.getItems().add(hero.getName());
@@ -327,7 +327,7 @@ public class GameView {
                     if(hero.getName().equals(combobox.valueProperty().get())) current_hero= hero;
                 }
                 vbox.getChildren().clear();;
-                vbox.getChildren().add(hudBasic());
+                vbox.getChildren().add(hudBasic(primaryStage));
                 updatemap();
             }
         });
@@ -378,7 +378,7 @@ public class GameView {
         }
         border.setLeft(HUD.hudHero());
     }
-    	public static Node moves(){
+	public static Node moves(Stage primaryStage){
 		VBox directions = new VBox();
 		Button up = new Button("Up");
 		Button down = new Button("Down");
@@ -391,34 +391,34 @@ public class GameView {
 		up.setOnAction(e -> {
 			System.out.println("Button 2 pressed");
 			Direction d = Direction.UP;
-			Buttons.moveButton(current_hero, d);
+			Buttons.moveButton(current_hero, d, primaryStage);
 			updatemap();
 			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic());
+			vbox.getChildren().add(hudBasic(primaryStage));
 		});
 		down.setOnAction(e -> {
 			System.out.println("Button 2 pressed");
 			Direction d = Direction.DOWN;
-			Buttons.moveButton(current_hero, d);
+			Buttons.moveButton(current_hero, d, primaryStage);
 			updatemap();
 			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic());
+			vbox.getChildren().add(hudBasic(primaryStage));
 		});
 		left.setOnAction(e -> {
 			System.out.println("Button 2 pressed");
 			Direction d = Direction.LEFT;
-			Buttons.moveButton(current_hero, d);
+			Buttons.moveButton(current_hero, d, primaryStage);
 			updatemap();
 			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic());
+			vbox.getChildren().add(hudBasic(primaryStage));
 		});
 		right.setOnAction(e -> {
 			System.out.println(current_hero.getName());
 			Direction d = Direction.RIGHT;
-			Buttons.moveButton(current_hero, d);
+			Buttons.moveButton(current_hero, d, primaryStage);
 			updatemap();
 			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic());
+			vbox.getChildren().add(hudBasic(primaryStage));
 		});
 		directions.getChildren().addAll(up,down,left,right);
 		return directions;

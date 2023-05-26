@@ -16,6 +16,7 @@ import model.characters.Fighter;
 import model.characters.Hero;
 import model.characters.Medic;
 import model.characters.Zombie;
+import javafx.stage.Stage;
 
 public class HUD {
 	public static Node hudHero = hudHero();
@@ -55,38 +56,38 @@ public class HUD {
         characterInfo.autosize();
         return characterInfo;
     }
-    public static Node hudAttack(){
+    public static Node hudAttack(Stage primaryStage){
     	    VBox v = new VBox();
     	    Button b = new Button("Atack!!!");
     	    b.setMinSize(100, 100);
     	    v.setSpacing(10);
 	    	Label l = new Label("please select a zombie");
 	    	b.setOnAction(e -> {
-	            Buttons.AttackButton(GameView.current_hero, GameView.current_zombie);
+	            Buttons.AttackButton(GameView.current_hero, GameView.current_zombie, primaryStage);
 	        });
 	    	v.getChildren().addAll(l,b);
 	    	return v;
     }
-	public static  Node hudCure() {
+	public static  Node hudCure(Stage primaryStage) {
 		 VBox v = new VBox();
  	    Button b = new Button("Cure!!!");
  	    b.setMinSize(100, 100);
  	    v.setSpacing(10);
 	    	Label l = new Label("please select a zombie");
 	    	b.setOnAction(e -> {
-	            Buttons.cureButton(GameView.current_hero, GameView.current_zombie);
+	            Buttons.cureButton(GameView.current_hero, GameView.current_zombie, primaryStage);
 	        });
 	    	v.getChildren().addAll(l,b);
 	    	return v;
 	}
-	public static  Node hudSpecial(Hero h) {
+	public static  Node hudSpecial(Hero h, Stage primaryStage) {
 		 VBox v = new VBox();
 	    Button b = new Button("Specialll!!!");
 	    b.setMinSize(100, 100);
 	    v.setSpacing(10);
 	    	Label l = new Label("please select a Hero");
 	    	b.setOnAction(e -> {
-	            Buttons.specialButtonM(h, GameView.current_hero);
+	            Buttons.specialButtonM(h, GameView.current_hero, primaryStage);
 	        });
 	    	v.getChildren().addAll(l,b);
 	    	return v;

@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import engine.Game;
@@ -15,15 +16,15 @@ import exceptions.MovementException;
 public class Buttons {
 	public static Label alert;
 	public static Boolean Flag;
-    public static void endTurnButton(){
+    public static void endTurnButton(Stage primaryStage){
         System.out.println("End Turn Button Pressed");
         try {
             Game.endTurn();
             if(Game.checkWin()){
-                GameView.endScreen(true);
+				primaryStage.setScene(GameView.endScreen(true));
             }
             else if(Game.checkGameOver()){
-                GameView.endScreen(false);
+				primaryStage.setScene(GameView.endScreen(false));
             }
         } catch (NotEnoughActionsException e) {
 			Label message=new Label(e.getMessage());
@@ -39,9 +40,9 @@ public class Buttons {
 			alert=message;
         }
     }
-    public static void moveButton(Hero h,Direction d){
+    public static void moveButton(Hero h,Direction d, Stage primaryStage){
         System.out.println("Move Button pressed");
-	Flag= false;
+		Flag= false;
         try{
         	h.move(d);
 		if(Flag)alert = new Label("You Walked Into a Trap!!!");
@@ -59,14 +60,14 @@ public class Buttons {
 			alert=message;
 		} finally{
 			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
         
         
 
     }
-	public static void AttackButton(Hero h , Zombie z){
+	public static void AttackButton(Hero h , Zombie z, Stage primaryStage){
     	try{
     		h.setTarget(z);
     		h.attack();
@@ -84,11 +85,11 @@ public class Buttons {
 			alert=message;
 		}finally{
 			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
     }
-	public static void cureButton(Hero h , Zombie z){
+	public static void cureButton(Hero h , Zombie z, Stage primaryStage){
 		try{
 			h.setTarget(z);
 			h.cure();
@@ -112,11 +113,11 @@ public class Buttons {
 			alert=message;
 		}finally{
 			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
-	public static void specialButtonFE(){
+	public static void specialButtonFE(Stage primaryStage){
 		try{
 			GameView.current_hero.useSpecial();
 		}catch (NoAvailableResourcesException e) {
@@ -133,11 +134,11 @@ public class Buttons {
 			alert=message;
 		}finally{
 			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
-	public static void specialButtonM(Hero h, Hero h1){
+	public static void specialButtonM(Hero h, Hero h1, Stage primaryStage){
 		try{
 			h.setTarget(h1);
 			GameView.current_hero.useSpecial();
@@ -155,7 +156,7 @@ public class Buttons {
 			alert=message;
 		}finally{
 			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic());
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
