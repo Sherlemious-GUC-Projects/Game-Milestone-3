@@ -19,41 +19,44 @@ public class Buttons {
             else if(Game.checkGameOver()){
                 GameView.endScreen(false);
             }
-        } catch (NotEnoughActionsException ex) {
-            ex.printStackTrace();
-        } catch (InvalidTargetException ex) {
-            ex.printStackTrace();
+			GameView.exceptionLabel.setText("");
+        } catch (NotEnoughActionsException e) {
+			GameView.exceptionLabel.setText(e.getMessage());
+        } catch (InvalidTargetException e) {
+			GameView.exceptionLabel.setText(e.getMessage());
         }
     }
+
     public static void moveButton(Hero h,Direction d){
         System.out.println("Move Button pressed");
         try{
+			GameView.exceptionLabel.setText("");
         	h.move(d);
         }catch(NotEnoughActionsException e){
         	GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.moves());
-        	e.printStackTrace();
+			GameView.exceptionLabel.setText(e.getMessage());
+
         } catch (MovementException e) {
         	GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
-			e.printStackTrace();
+			GameView.exceptionLabel.setText(e.getMessage());
 		}
-        
-        
-
     }
+
 	public static void AttackButton(Hero h , Zombie z){
     	try{
     		h.setTarget(z);
     		h.attack();
+			GameView.exceptionLabel.setText("");
     	}catch(NotEnoughActionsException e){
-    		e.printStackTrace();
+			GameView.exceptionLabel.setText(e.getMessage());
     		GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
     	} catch (InvalidTargetException e) {
+			GameView.exceptionLabel.setText(e.getMessage());
     		GameView.vbox.getChildren().clear();
         	GameView.vbox.getChildren().add(GameView.hudBasic());
-			e.printStackTrace();
 		}
     }
 }

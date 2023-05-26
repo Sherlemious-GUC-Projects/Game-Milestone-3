@@ -52,6 +52,7 @@ public class GameView {
     public static ImageView emptyImg;
     public static VBox vbox;
     public static ComboBox combobox;
+	public static Label exceptionLabel = new Label("");
 
     public static Scene startScreen(Stage primaryStage) {
         // main pane
@@ -213,6 +214,7 @@ public class GameView {
         border.setLeft(HUD.hudHero());
         border.setCenter(map());
         border.setRight(hudBasic());
+		border.setBottom(exceptionLabel);
         Scene scene = new Scene(border, 1000, 1000);
         updatemap();
         return scene;
