@@ -14,6 +14,7 @@ public class HUD {
     public static Node hudHero(){
         currentHero = GameView.current_hero;
         VBox characterInfo = new VBox();
+        characterInfo.setMinWidth(150);
         characterInfo.setStyle("-fx-background-color: #6b6b6b;");
         characterInfo.setAlignment(Pos.TOP_CENTER);
         characterInfo.setSpacing(10);
@@ -31,11 +32,6 @@ public class HUD {
         characterInfo.getChildren().addAll(characterName, characterHealth, characterAttackDamage,
                 characterNumberOfMoves, characterType);
 
-        characterName.setTranslateY(-300);
-        characterHealth.setTranslateY(-275);
-        characterAttackDamage.setTranslateY(-250);
-        characterNumberOfMoves.setTranslateY(-225);
-        characterType.setTranslateY(-200);
         characterInfo.autosize();
         return characterInfo;
     }
