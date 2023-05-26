@@ -5,6 +5,8 @@ import exceptions.InvalidTargetException;
 import exceptions.NotEnoughActionsException;
 import javafx.scene.control.Button;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
@@ -30,6 +32,7 @@ import model.characters.Zombie;
 import model.world.CharacterCell;
 import model.world.CollectibleCell;
 import model.world.TrapCell;
+
 // importing game related classes
 import engine.Game;
 import gui.Buttons;
