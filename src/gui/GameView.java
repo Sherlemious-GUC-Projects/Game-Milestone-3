@@ -258,6 +258,8 @@ public class GameView {
         });
         button2.setOnAction(e -> {
             System.out.println("Button 2 pressed");
+		vbox.getChildren().clear();
+		vbox.getChildren().add(HUD.hudAttack());
         });
         button3.setOnAction(e -> {
             System.out.println("Button 3 pressed");
