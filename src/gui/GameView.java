@@ -45,7 +45,7 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = "C:\\Users\\mizon\\Favorites\\Downloads\\GUC_402_59_30348_2023-03-16T15_31_00 (2)\\Heros.csv";
+    static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
