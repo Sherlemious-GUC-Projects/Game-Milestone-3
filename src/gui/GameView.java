@@ -26,7 +26,9 @@ import model.characters.Explorer;
 import model.characters.Fighter;
 import model.characters.Medic;
 import model.characters.Zombie;
-
+import model.world.CharacterCell;
+import model.world.CollectibleCell;
+import model.world.TrapCell;
 // importing game related classes
 import engine.Game;
 
@@ -212,36 +214,10 @@ public class GameView {
 		for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15 ; j++) {
             	StackPane cell = new StackPane();
-                Rectangle rect = new Rectangle(50, 50);
-                rect.setFill(Color.WHITE);
-                rect.setStroke(Color.BLACK);
-                cell.getChildren().add(rect);
-                grid.add(cell, i, 14-j);
-                cells[i][j]= cell;
+                grid.add(cell, i, j);
+                cells[i][14-j]= cell;
             }
-        }
-		heroimg = new ImageView(new Image("hero.png"));
-		heroimg.setFitHeight(49);
-		heroimg.setFitWidth(49);
-		cells[0][0].getChildren().add(heroimg);
-		for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15 ; j++) {
-            	if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Zombie ){
-            		zombieimg = new ImageView(new Image("zombie.png"));
-        		    zombieimg.setFitHeight(49);
-        		    zombieimg.setFitWidth(49);
-            		cells[i][j].getChildren().clear();
-            		cells[i][j].getChildren().add(zombieimg);
-               }
-            	if(Game.map[i][j] instanceof CollectibleCell ){
-            		Collectibleimg = new ImageView(new Image("collectible.png"));
-            		Collectibleimg.setFitHeight(49);
-            		Collectibleimg.setFitWidth(49);
-            		cells[i][j].getChildren().clear();
-            		cells[i][j].getChildren().add(Collectibleimg);
-            	}
-            }
-		}
+        }		
 		return grid;
 	}
 
@@ -312,5 +288,34 @@ public class GameView {
 		Scene endScreen = new Scene(stackPane, 900, 800);
 		return endScreen;
 	}
+	public static void updatemap(){
+		for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15 ; j++) {
+            	emptyimg = new ImageView(new Image("emptycell.png"));
+            	if(Game.map[i][j].isVisible()){
+            		if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Zombie ){
+                		zombieimg = new ImageView(new Image("zombie.png"));
+                		cells[i][j].getChildren().add(zombieimg);
+                   }
+                	if(Game.map[i][j] instanceof CollectibleCell ){
+                		Collectibleimg = new ImageView(new Image("collectible.png"));
+                		cells[i][j].getChildren().add(Collectibleimg);
+                	}
+                	if(Game.map[i][j] instanceof TrapCell ||(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter()==null) ){
+                		emptyimg = new ImageView(new Image("emptycell.png"));
+                		cells[i][j].getChildren().add(emptyimg);
+                	}
+                	if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Hero ){
+                		heroimg = new ImageView(new Image("hero.png"));
+                		cells[i][j].getChildren().add(heroimg);
+                   }
+            	}else{
+            		emptyimg = new ImageView(new Image("emptycell.png"));
+            		cells[i][j].getChildren().add(emptyimg);
+            	}
+            	
+               }
+            }
+    }
 
 }
