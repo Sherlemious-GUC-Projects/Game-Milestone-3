@@ -1,10 +1,10 @@
 package gui;
 
 import engine.Game;
-import exceptions.InvalidTargetException;
-import exceptions.NotEnoughActionsException;
 import model.characters.Hero;
 import model.characters.Direction;
+import exceptions.InvalidTargetException;
+import exceptions.NotEnoughActionsException;
 import exceptions.MovementException;
 
 public class Buttons {

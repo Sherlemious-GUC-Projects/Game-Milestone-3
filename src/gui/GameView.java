@@ -32,6 +32,7 @@ import model.world.CollectibleCell;
 import model.world.TrapCell;
 // importing game related classes
 import engine.Game;
+import gui.Buttons;
 
 // importing world related classes
 //more imports
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = "A:\\University\\Uni Work\\Projects\\Game\\Milestone 3\\bin\\gui\\data\\Heros.csv";
+    static String pathToHeroes = "gui/data/Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
@@ -51,8 +52,8 @@ public class GameView {
     public static ImageView emptyImg;
     public static VBox vbox;
     public static ComboBox combobox;
-    public static Scene startScreen(Stage primaryStage) {
 
+    public static Scene startScreen(Stage primaryStage) {
         // main pane
         StackPane stackPane = new StackPane();
 
@@ -173,7 +174,7 @@ public class GameView {
         ArrayList<Hero> availableHeroes = Game.availableHeroes;
         Button startButton = new Button("Start");
         startButton.setOnAction(e -> {
-            if(characterSelection.valueProperty().getValue() != null)
+            if(characterSelection.valueProperty().getValue() != null){
                 for (int i = 0; i < availableHeroes.size(); i++) {
                     Hero hero = availableHeroes.get(i);
                     if (hero==null) {
@@ -186,8 +187,9 @@ public class GameView {
                         primaryStage.setScene(gameScreen());
                     }
                 }
-            System.out.println("Game started");
-            System.out.println("Hero selected: " + Game.heroes.get(0).getName());
+				System.out.println("Game started");
+				System.out.println("Hero selected: " + Game.heroes.get(0).getName());
+			}
         });
 
         //adding character selection to pane
