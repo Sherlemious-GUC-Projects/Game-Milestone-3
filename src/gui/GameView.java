@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
+    static String pathToHeroes = System.getProperty("user.dir") + "/gui/data/Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
     public static ImageView heroImg;
     public static ImageView zombieImg;
@@ -208,6 +208,17 @@ public class GameView {
         startButton.setTranslateY(-50);
         stackPane.setAlignment(startButton, Pos.BOTTOM_CENTER);
 
+		//set ai button
+		Button setAIButton = new Button("Enable AI");
+		setAIButton.setOnAction(e -> {
+			Game.isAi = true;
+			System.out.println("AI enabled");
+		});
+		stackPane.getChildren().add(setAIButton);
+		setAIButton.setTranslateY(-150);
+		stackPane.setAlignment(setAIButton, Pos.BOTTOM_CENTER);
+
+
         // initializing scene
         Scene startScreen = new Scene(stackPane, 900, 800);
         primaryStage.setScene(startScreen);
@@ -216,7 +227,7 @@ public class GameView {
     }
 
     public static Scene gameScreen(Stage primaryStage){
-         border = new BorderPane();
+		border = new BorderPane();
         border.setLeft(HUD.hudHero);
         border.setCenter(map());
         border.setRight(hudBasic(primaryStage));
@@ -264,14 +275,19 @@ public class GameView {
         Button button4 = new Button("Move");
         Button button5 = new Button("Special");
         Button button6 = new Button("Heroes");
+		Button button7 = new Button("AI");
         button1.setMinSize(100, 100);
         button2.setMinSize(100, 100);
         button3.setMinSize(100, 100);
         button4.setMinSize(100, 100);
         button5.setMinSize(100, 100);
         button6.setMinSize(100, 100);
+		button7.setMinSize(100, 100);
 
         vbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
+		if (Game.isAi == true) {
+			vbox.getChildren().add(button7);
+		}
 
         button1.setOnAction(e -> {
             System.out.println("Button 1 pressed");
@@ -308,6 +324,11 @@ public class GameView {
             vbox.getChildren().clear();
             vbox.getChildren().add(heroes(primaryStage));
         });
+		button7.setOnAction(e -> {
+			System.out.println("Button 7 pressed");
+			Buttons.aiButton(primaryStage);
+		});
+
         
        
         border.setBottom(Buttons.alert);
