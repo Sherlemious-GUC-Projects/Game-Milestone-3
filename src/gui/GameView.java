@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 import model.characters.Direction;
 // importing character classes
 import model.characters.Hero;
@@ -50,7 +52,9 @@ public class GameView {
     public static VBox controlMenu;
     public static ComboBox combobox;
     public static BorderPane border;
-    
+
+
+
     public static Scene startScreen(Stage primaryStage) {
         // main pane
         StackPane stackPane = new StackPane();
@@ -207,13 +211,37 @@ public class GameView {
     }
 
     public static Scene gameScreen(Stage primaryStage){
-         border = new BorderPane();
+        border = new BorderPane();
         border.setLeft(HUD.hudHero);
         border.setCenter(map());
         border.setRight(hudBasic(primaryStage));
         Scene scene = new Scene(border, 1000, 1000);
         updatemap();
+
+        EventHandler<KeyEvent> keyListener = event -> {
+            if(event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN ||
+                    event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT) {
+                Direction d;
+                if (event.getCode() == KeyCode.UP) {
+                    System.out.println("Up key pressed");
+                    d = Direction.UP;
+                } else if (event.getCode() == KeyCode.DOWN) {
+                    d = Direction.DOWN;
+                } else if (event.getCode() == KeyCode.RIGHT) {
+                    d = Direction.RIGHT;
+                } else {
+                    d = Direction.LEFT;
+                }
+                Buttons.moveButton(current_hero, d, primaryStage);
+                updatemap();
+            }
+            event.consume();
+        };
+
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
         return scene;
+
     }
 
     public static Node map(){
@@ -243,6 +271,7 @@ public class GameView {
                 });
             }
         }
+
         return grid;
     }
 
@@ -356,7 +385,7 @@ public class GameView {
                         cells[i][j].getChildren().add(emptyImg);
                     }
                     if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Hero ){
-                        heroImg = new ImageView(new Image("gui/data/hero.png"));
+                        heroImg = new ImageView(new Image("gui/data/Ellie.png"));
                         cells[i][j].getChildren().add(heroImg);
                     }
                 }else{
