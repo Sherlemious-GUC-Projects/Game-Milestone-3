@@ -28,11 +28,11 @@ public class HUD {
         int sCount;
         
         if(currentHero instanceof Fighter)s="Fighter";
-        if(currentHero instanceof Medic)s="Fighter";
-        if(currentHero instanceof Explorer)s="Fighter";
+        if(currentHero instanceof Medic)s="Medic";
+        if(currentHero instanceof Explorer)s="Explorer";
         VBox characterInfo = new VBox();
         characterInfo.setMinWidth(150);
-        characterInfo.setStyle("-fx-background-color: #6b6b6b;");
+        characterInfo.setStyle("-fx-background-color: #b6f3ff;");
         characterInfo.setAlignment(Pos.TOP_CENTER);
         characterInfo.setSpacing(10);
         Label characterName = new Label("Name: " + currentHero.getName());
@@ -41,8 +41,10 @@ public class HUD {
         Label characterNumberOfMoves = new Label("Actions Available: " + currentHero.getActionsAvailable());
         Label characterType = new Label("Type: " + s);
         Label VaccineC = new Label("Vaccines: " + currentHero.getVaccineInventory().size());
-        Label SupplyC = new Label("Supllies: " + currentHero.getSupplyInventory().size());
-        characterName.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        Label SupplyC = new Label("Supplies: " + currentHero.getSupplyInventory().size());
+		Label placeHolder = new Label(" ");
+
+        characterName.setFont(Font.font("Comic Sans", FontWeight.BOLD, 10));
         characterHealth.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
         characterAttackDamage.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
         characterNumberOfMoves.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
@@ -50,7 +52,7 @@ public class HUD {
         VaccineC.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
         SupplyC.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
 
-        characterInfo.getChildren().addAll(characterName, characterHealth, characterAttackDamage,
+        characterInfo.getChildren().addAll(placeHolder, characterName, characterHealth, characterAttackDamage,
                 characterNumberOfMoves, characterType,SupplyC,VaccineC);
 
         characterInfo.autosize();

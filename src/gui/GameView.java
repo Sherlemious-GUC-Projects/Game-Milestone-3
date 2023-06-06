@@ -1,10 +1,7 @@
 package gui;
 
 // importing gui related classes
-import exceptions.InvalidTargetException;
-import exceptions.NotEnoughActionsException;
 import javafx.scene.control.Button;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
@@ -12,16 +9,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -30,14 +25,12 @@ import model.characters.Direction;
 import model.characters.Hero;
 import model.characters.Medic;
 import model.characters.Zombie;
+import model.collectibles.Vaccine;
 import model.world.CharacterCell;
 import model.world.CollectibleCell;
 import model.world.TrapCell;
 // importing game related classes
 import engine.Game;
-import gui.Buttons;
-
-
 
 
 // importing world related classes
@@ -50,12 +43,16 @@ import java.util.ArrayList;
 public class GameView {
     public static Hero current_hero;
     public static Zombie current_zombie;
-    static String pathToHeroes = System.getProperty("user.dir") + "/gui/data/Heros.csv";
+    static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
-    public static ImageView heroImg;
-    public static ImageView zombieImg;
-    public static ImageView CollectibleImg;
-    public static ImageView emptyImg;
+
+    // Setting up images
+    public static ImageView heroImg = new ImageView(new Image("gui/data/Ellie.png"));
+    public static ImageView zombieImg = new ImageView(new Image("gui/data/zombie.png"));
+    public static ImageView CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
+    public static ImageView emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
+    public static ImageView vaccineImg = new ImageView(new Image("gui/data/old/vaccine.png"));
+    public static ImageView supplyImg = new ImageView(new Image("gui/data/old/supply.png"));
     public static VBox vbox;
     public static ComboBox combobox;
     public static BorderPane border;
@@ -66,34 +63,67 @@ public class GameView {
 
         //Labels initialization
         Label gameTitle = new Label("The Last of Us");
+        gameTitle.setFont(new Font("Arial", 100));
+        gameTitle.setAlignment(Pos.TOP_CENTER);
+        gameTitle.setMinSize(200, 200);
+        gameTitle.setStyle("-fx-text-fill: white;");
         Label characterSelectedName = new Label("Character selected:    ");
         Label characterSelectedType = new Label("Type:    ");
         Label characterSelectedHealth = new Label("Health:    ");
         Label characterSelectedAttackDamage = new Label("Attack Damage:    ");
         Label characterSelectedNumberOfMoves = new Label("Max number of moves:    ");
 
+        // Start Screen wallpaper
+        Image startScreenWallpaper = new Image("gui/data/load1.jpg");
+        ImageView startScreenWallpaperView = new ImageView(startScreenWallpaper);
+        startScreenWallpaperView.setFitHeight(1080);
+        startScreenWallpaperView.setFitWidth(1920);
+        stackPane.getChildren().add(startScreenWallpaperView);
+
+        // Add solid color text box for the text to be more visible
+//        Label textBox = new Label();
+//        textBox.setPrefSize(300, 150);
+//        textBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
+//        gameTitle.setTranslateY(-350);
+//        stackPane.getChildren().add(textBox);
+
+
         //adding labels to pane
         stackPane.getChildren().add(gameTitle);
         stackPane.setAlignment(gameTitle, Pos.TOP_CENTER);
         gameTitle.setTranslateY(200);
-
         stackPane.getChildren().add(characterSelectedName);
-        characterSelectedName.setTranslateY(-300);
+        // Set font color to white
+        characterSelectedName.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedName.setFont(new Font("Comic Sans", 16));
+        characterSelectedName.setTranslateY(-320);
         stackPane.setAlignment(characterSelectedName, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedType);
-        characterSelectedType.setTranslateY(-275);
+        // Set font color to white
+        characterSelectedType.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedType.setFont(new Font("Comic Sans", 16));
+        characterSelectedType.setTranslateY(-290);
         stackPane.setAlignment(characterSelectedType, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedHealth);
-        characterSelectedHealth.setTranslateY(-250);
+        // Set font color to white
+        characterSelectedHealth.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedHealth.setFont(new Font("Comic Sans", 16));
+        characterSelectedHealth.setTranslateY(-260);
         stackPane.setAlignment(characterSelectedHealth, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedAttackDamage);
-        characterSelectedAttackDamage.setTranslateY(-225);
+        // Set font color to white
+        characterSelectedAttackDamage.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedAttackDamage.setFont(new Font("Comic Sans", 16));
+        characterSelectedAttackDamage.setTranslateY(-230);
         stackPane.setAlignment(characterSelectedAttackDamage, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedNumberOfMoves);
+        // Set font color to white
+        characterSelectedNumberOfMoves.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedNumberOfMoves.setFont(new Font("Comic Sans", 16));
         characterSelectedNumberOfMoves.setTranslateY(-200);
         stackPane.setAlignment(characterSelectedNumberOfMoves, Pos.BOTTOM_CENTER);
 
@@ -227,12 +257,36 @@ public class GameView {
     }
 
     public static Scene gameScreen(Stage primaryStage){
-		border = new BorderPane();
+        border = new BorderPane();
         border.setLeft(HUD.hudHero);
         border.setCenter(map());
         border.setRight(hudBasic(primaryStage));
         Scene scene = new Scene(border, 1000, 1000);
         updatemap();
+
+        EventHandler<KeyEvent> keyListener = event -> {
+            System.out.println("Key pressed: " + event.getCode());
+            if(event.getCode() == KeyCode.W || event.getCode() == KeyCode.S ||
+                    event.getCode() == KeyCode.D || event.getCode() == KeyCode.A) {
+                Direction d;
+                if (event.getCode() == KeyCode.W) {
+                    System.out.println("Up key pressed");
+                    d = Direction.UP;
+                } else if (event.getCode() == KeyCode.S) {
+                    d = Direction.DOWN;
+                } else if (event.getCode() == KeyCode.D) {
+                    d = Direction.RIGHT;
+                } else {
+                    d = Direction.LEFT;
+                }
+                Buttons.moveButton(current_hero, d, primaryStage);
+                updatemap();
+            }
+            event.consume();
+        };
+
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
         return scene;
     }
 
@@ -269,46 +323,39 @@ public class GameView {
     public static Node hudBasic(Stage primaryStage){
         vbox = new VBox();
         vbox.setSpacing(0);
-        Button button1 = new Button("End Turn");
-        Button button2 = new Button("Attack");
-        Button button3 = new Button("Cure");
-        Button button4 = new Button("Move");
+        Button endTurnButtonBox = new Button("End Turn");
+        Button attackButtonBox = new Button("Attack");
+        Button cureButtonBox = new Button("Cure");
         Button button5 = new Button("Special");
         Button button6 = new Button("Heroes");
-		Button button7 = new Button("AI");
-        button1.setMinSize(100, 100);
-        button2.setMinSize(100, 100);
-        button3.setMinSize(100, 100);
-        button4.setMinSize(100, 100);
+        Button button7 = new Button("AI");
+        endTurnButtonBox.setMinSize(100, 100);
+        attackButtonBox.setMinSize(100, 100);
+        cureButtonBox.setMinSize(100, 100);
         button5.setMinSize(100, 100);
         button6.setMinSize(100, 100);
 		button7.setMinSize(100, 100);
 
-        vbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
+        vbox.getChildren().addAll(endTurnButtonBox, attackButtonBox, cureButtonBox, button5, button6);
 		if (Game.isAi == true) {
-			vbox.getChildren().add(button7);
+            vbox.getChildren().add(button7);
 		}
 
-        button1.setOnAction(e -> {
+        endTurnButtonBox.setOnAction(e -> {
             System.out.println("Button 1 pressed");
             Buttons.endTurnButton(primaryStage);
 			updatemap();
         });
-        button2.setOnAction(e -> {
+        attackButtonBox.setOnAction(e -> {
             System.out.println("Button 2 pressed");
 		vbox.getChildren().clear();
 		vbox.getChildren().add(HUD.hudAttack(primaryStage));
 		
         });
-        button3.setOnAction(e -> {
+        cureButtonBox.setOnAction(e -> {
             System.out.println("Button 3 pressed");
             vbox.getChildren().clear();
     		vbox.getChildren().add(HUD.hudCure(primaryStage));
-        });
-        button4.setOnAction(e -> {
-            System.out.println("Button 4 pressed");
-			vbox.getChildren().clear();
-			vbox.getChildren().add(moves(primaryStage));
         });
         button5.setOnAction(e -> {
             System.out.println("Button 5 pressed");
@@ -329,7 +376,7 @@ public class GameView {
 			Buttons.aiButton(primaryStage);
 		});
 
-        
+
        
         border.setBottom(Buttons.alert);
 
@@ -379,69 +426,38 @@ public class GameView {
                         cells[i][j].getChildren().add(zombieImg);
                     }
                     if(Game.map[i][j] instanceof CollectibleCell ){
-                        CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
-                        cells[i][j].getChildren().add(CollectibleImg);
+                        if(((CollectibleCell) Game.map[i][j]).getCollectible() instanceof Vaccine){
+                            vaccineImg = new ImageView(new Image("gui/data/old/vaccine.png"));
+                            cells[i][j].getChildren().add(vaccineImg);
+                        }
+                        else{
+                            supplyImg = new ImageView(new Image("gui/data/old/supply.png"));
+                            cells[i][j].getChildren().add(supplyImg);
+                        }
                     }
+
                     if(Game.map[i][j] instanceof TrapCell ||(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter()==null) ){
-                        emptyImg = new ImageView(new Image("gui/data/emptycell.png"));
+                        emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
                         cells[i][j].getChildren().add(emptyImg);
                     }
                     if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Hero ){
-                        heroImg = new ImageView(new Image("gui/data/hero.png"));
+                        heroImg = new ImageView(new Image("gui/data/Ellie.png"));
                         cells[i][j].getChildren().add(heroImg);
                     }
                 }else{
-                    emptyImg = new ImageView(new Image("gui/data/emptycell.png"));
-                    cells[i][j].getChildren().add(emptyImg);
+                    if(Game.map[i][j].isVisible()){
+                        emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
+                        cells[i][j].getChildren().add(emptyImg);
+                    }
+                    else{
+                        emptyImg = new ImageView(new Image("gui/data/invisibleCell.png"));
+                        cells[i][j].getChildren().add(emptyImg);
+                    }
                 }
 
             }
         }
         border.setLeft(HUD.hudHero());
     }
-	public static Node moves(Stage primaryStage){
-		VBox directions = new VBox();
-		Button up = new Button("Up");
-		Button down = new Button("Down");
-		Button left = new Button("Left");
-		Button right = new Button("Right");
-		up.setMinSize(100, 100);
-		down.setMinSize(100, 100);
-		left.setMinSize(100, 100);
-		right.setMinSize(100, 100);
-		up.setOnAction(e -> {
-			System.out.println("Button 2 pressed");
-			Direction d = Direction.UP;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic(primaryStage));
-		});
-		down.setOnAction(e -> {
-			System.out.println("Button 2 pressed");
-			Direction d = Direction.DOWN;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic(primaryStage));
-		});
-		left.setOnAction(e -> {
-			System.out.println("Button 2 pressed");
-			Direction d = Direction.LEFT;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic(primaryStage));
-		});
-		right.setOnAction(e -> {
-			System.out.println(current_hero.getName());
-			Direction d = Direction.RIGHT;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			vbox.getChildren().clear();
-			vbox.getChildren().add(hudBasic(primaryStage));
-		});
-		directions.getChildren().addAll(up,down,left,right);
-		return directions;
-	}
+
 }
