@@ -63,9 +63,12 @@ public class HUD {
     	    Button b = new Button("Attack!!!");
     	    b.setMinSize(100, 100);
     	    v.setSpacing(10);
-	    	Label l = new Label("please select a zombie");
+	    	Label l = new Label("\nPlease Select a Zombie");
 	    	b.setOnAction(e -> {
 	            Buttons.AttackButton(GameView.current_hero, GameView.current_zombie, primaryStage);
+//				Label x = new Label("Zombie Health: " + GameView.current_zombie.getCurrentHp() + "/" + GameView.current_zombie.getMaxHp());
+//				x.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
+//				v.getChildren().add(x);
 	        });
 	    	v.getChildren().addAll(l,b);
 	    	return v;
