@@ -287,6 +287,13 @@ public class GameView {
 
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
+		if (Game.isAi) {
+			while (true)
+				Buttons.aiButton(primaryStage);
+				//make it wait a second
+				
+
+		}
         return scene;
     }
 
@@ -337,9 +344,9 @@ public class GameView {
 		button7.setMinSize(100, 100);
 
         vbox.getChildren().addAll(endTurnButtonBox, attackButtonBox, cureButtonBox, button5, button6);
-		if (Game.isAi == true) {
-            vbox.getChildren().add(button7);
-		}
+//		if (Game.isAi == true) {
+//          vbox.getChildren().add(button7);
+//		}
 
         endTurnButtonBox.setOnAction(e -> {
             System.out.println("Button 1 pressed");
