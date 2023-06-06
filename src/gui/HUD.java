@@ -32,7 +32,7 @@ public class HUD {
         if(currentHero instanceof Explorer)s="Explorer";
         VBox characterInfo = new VBox();
         characterInfo.setMinWidth(150);
-        characterInfo.setStyle("-fx-background-color: #b6f3ff;");
+        characterInfo.setStyle("-fx-background-color: #569d6f;");
         characterInfo.setAlignment(Pos.TOP_CENTER);
         characterInfo.setSpacing(10);
         Label characterName = new Label("Name: " + currentHero.getName());
@@ -51,6 +51,15 @@ public class HUD {
         characterType.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
         VaccineC.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
         SupplyC.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+
+		// Font colours for the labels
+		characterName.setStyle("-fx-text-fill: #dbdbdb;");
+		characterHealth.setStyle("-fx-text-fill: #dbdbdb;");
+		characterAttackDamage.setStyle("-fx-text-fill: #dbdbdb;");
+		characterNumberOfMoves.setStyle("-fx-text-fill: #dbdbdb;");
+		characterType.setStyle("-fx-text-fill: #dbdbdb;");
+		VaccineC.setStyle("-fx-text-fill: #dbdbdb;");
+		SupplyC.setStyle("-fx-text-fill: #dbdbdb;");
 
         characterInfo.getChildren().addAll(placeHolder, characterName, characterHealth, characterAttackDamage,
                 characterNumberOfMoves, characterType,SupplyC,VaccineC);
