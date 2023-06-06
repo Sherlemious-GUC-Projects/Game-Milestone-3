@@ -16,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
@@ -64,34 +65,67 @@ public class GameView {
 
         //Labels initialization
         Label gameTitle = new Label("The Last of Us");
+        gameTitle.setFont(new Font("Arial", 100));
+        gameTitle.setAlignment(Pos.TOP_CENTER);
+        gameTitle.setMinSize(200, 200);
+        gameTitle.setStyle("-fx-text-fill: white;");
         Label characterSelectedName = new Label("Character selected:    ");
         Label characterSelectedType = new Label("Type:    ");
         Label characterSelectedHealth = new Label("Health:    ");
         Label characterSelectedAttackDamage = new Label("Attack Damage:    ");
         Label characterSelectedNumberOfMoves = new Label("Max number of moves:    ");
 
+        // Start Screen wallpaper
+        Image startScreenWallpaper = new Image("gui/data/load1.jpg");
+        ImageView startScreenWallpaperView = new ImageView(startScreenWallpaper);
+        startScreenWallpaperView.setFitHeight(1080);
+        startScreenWallpaperView.setFitWidth(1920);
+        stackPane.getChildren().add(startScreenWallpaperView);
+
+        // Add solid color text box for the text to be more visible
+//        Label textBox = new Label();
+//        textBox.setPrefSize(300, 150);
+//        textBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
+//        gameTitle.setTranslateY(-350);
+//        stackPane.getChildren().add(textBox);
+
+
         //adding labels to pane
         stackPane.getChildren().add(gameTitle);
         stackPane.setAlignment(gameTitle, Pos.TOP_CENTER);
         gameTitle.setTranslateY(200);
-
         stackPane.getChildren().add(characterSelectedName);
-        characterSelectedName.setTranslateY(-300);
+        // Set font color to white
+        characterSelectedName.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedName.setFont(new Font("Comic Sans", 16));
+        characterSelectedName.setTranslateY(-320);
         stackPane.setAlignment(characterSelectedName, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedType);
-        characterSelectedType.setTranslateY(-275);
+        // Set font color to white
+        characterSelectedType.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedType.setFont(new Font("Comic Sans", 16));
+        characterSelectedType.setTranslateY(-290);
         stackPane.setAlignment(characterSelectedType, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedHealth);
-        characterSelectedHealth.setTranslateY(-250);
+        // Set font color to white
+        characterSelectedHealth.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedHealth.setFont(new Font("Comic Sans", 16));
+        characterSelectedHealth.setTranslateY(-260);
         stackPane.setAlignment(characterSelectedHealth, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedAttackDamage);
-        characterSelectedAttackDamage.setTranslateY(-225);
+        // Set font color to white
+        characterSelectedAttackDamage.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedAttackDamage.setFont(new Font("Comic Sans", 16));
+        characterSelectedAttackDamage.setTranslateY(-230);
         stackPane.setAlignment(characterSelectedAttackDamage, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedNumberOfMoves);
+        // Set font color to white
+        characterSelectedNumberOfMoves.setStyle("-fx-text-fill: #b9b9b9;");
+        characterSelectedNumberOfMoves.setFont(new Font("Comic Sans", 16));
         characterSelectedNumberOfMoves.setTranslateY(-200);
         stackPane.setAlignment(characterSelectedNumberOfMoves, Pos.BOTTOM_CENTER);
 
