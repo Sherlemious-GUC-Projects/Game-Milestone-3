@@ -10,10 +10,8 @@ import engine.Game;
 import model.characters.Hero;
 import model.characters.Direction;
 import model.characters.Zombie;
-import model.characters.Direction;
 
 import model.world.Cell;
-import model.world.CharacterCell;
 import model.world.CollectibleCell;
 import model.world.TrapCell;
 
@@ -72,8 +70,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		} finally{
-			GameView.controlMenu.getChildren().clear();
-        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
     }
@@ -94,8 +92,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.controlMenu.getChildren().clear();
-        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
     }
@@ -122,8 +120,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.controlMenu.getChildren().clear();
-        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
@@ -143,8 +141,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.controlMenu.getChildren().clear();
-        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
@@ -165,8 +163,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.controlMenu.getChildren().clear();
-        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.vbox.getChildren().clear();
+        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
@@ -231,7 +229,7 @@ public class Buttons {
 
 			for (Direction d : allDirs){
 				Point newP = convertFromDirectionToPoint(d);
-				Cell c = Game.map[newP.x][newP.y];
+				Cell c = Game.map[newP.x+1][newP.y+1];
 				if (c instanceof CollectibleCell){
 					// if it is a collectible cell then move to it
 					try{
