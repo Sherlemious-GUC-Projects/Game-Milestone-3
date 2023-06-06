@@ -59,8 +59,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		} finally{
-			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.controlMenu.getChildren().clear();
+        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
         
@@ -84,8 +84,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.controlMenu.getChildren().clear();
+        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
     }
@@ -112,8 +112,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.controlMenu.getChildren().clear();
+        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
@@ -133,8 +133,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.controlMenu.getChildren().clear();
+        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
@@ -155,8 +155,8 @@ public class Buttons {
 			message.setMinSize(200, 200);
 			alert=message;
 		}finally{
-			GameView.vbox.getChildren().clear();
-        	GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.controlMenu.getChildren().clear();
+        	GameView.controlMenu.getChildren().add(GameView.hudBasic(primaryStage));
         	GameView.updatemap();
 		}
 	}
