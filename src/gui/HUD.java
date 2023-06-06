@@ -60,7 +60,7 @@ public class HUD {
     }
     public static Node hudAttack(Stage primaryStage){
     	    VBox v = new VBox();
-    	    Button b = new Button("Atack!!!");
+    	    Button b = new Button("Attack!!!");
     	    b.setMinSize(100, 100);
     	    v.setSpacing(10);
 	    	Label l = new Label("please select a zombie");
