@@ -43,11 +43,10 @@ public class GameView {
     public static StackPane[][] cells = new StackPane[15][15];
 
     // Setting up images
-    public static ImageView heroImg = new ImageView(new Image("gui/data/hero.png"));
+    public static ImageView heroImg = new ImageView(new Image("gui/data/Ellie.png"));
     public static ImageView zombieImg = new ImageView(new Image("gui/data/zombie.png"));
     public static ImageView CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
     public static ImageView emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
-
     public static VBox controlMenu;
     public static ComboBox combobox;
     public static BorderPane border;
@@ -345,19 +344,30 @@ public class GameView {
             for (int j = 0; j < 15 ; j++) {
                 if(Game.map[i][j].isVisible()){
                     if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Zombie ){
+                        zombieImg = new ImageView(new Image("gui/data/zombie.png"));
                         cells[i][j].getChildren().add(zombieImg);
                     }
                     if(Game.map[i][j] instanceof CollectibleCell ){
+                        CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
                         cells[i][j].getChildren().add(CollectibleImg);
                     }
                     if(Game.map[i][j] instanceof TrapCell ||(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter()==null) ){
+                        emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
                         cells[i][j].getChildren().add(emptyImg);
                     }
                     if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Hero ){
+                        heroImg = new ImageView(new Image("gui/data/hero.png"));
                         cells[i][j].getChildren().add(heroImg);
                     }
                 }else{
-                    cells[i][j].getChildren().add(emptyImg);
+                    if(Game.map[i][j].isVisible()){
+                        emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
+                        cells[i][j].getChildren().add(emptyImg);
+                    }
+                    else{
+                        emptyImg = new ImageView(new Image("gui/data/invisibleCell.png"));
+                        cells[i][j].getChildren().add(emptyImg);
+                    }
                 }
 
             }
