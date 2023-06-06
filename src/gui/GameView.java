@@ -1,7 +1,10 @@
 package gui;
 
 // importing gui related classes
+import exceptions.InvalidTargetException;
+import exceptions.NotEnoughActionsException;
 import javafx.scene.control.Button;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
@@ -12,25 +15,29 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
 import model.characters.Direction;
 // importing character classes
 import model.characters.Hero;
 import model.characters.Medic;
 import model.characters.Zombie;
-import model.collectibles.Vaccine;
 import model.world.CharacterCell;
 import model.world.CollectibleCell;
 import model.world.TrapCell;
 // importing game related classes
 import engine.Game;
+import gui.Buttons;
+
+
 
 
 // importing world related classes
@@ -45,87 +52,48 @@ public class GameView {
     public static Zombie current_zombie;
     static String pathToHeroes = System.getProperty("user.dir") + "/src/gui/data/Heros.csv";
     public static StackPane[][] cells = new StackPane[15][15];
-
-    // Setting up images
-    public static ImageView heroImg = new ImageView(new Image("gui/data/Ellie.png"));
-    public static ImageView zombieImg = new ImageView(new Image("gui/data/zombie.png"));
-    public static ImageView CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
-    public static ImageView emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
-    public static ImageView vaccineImg = new ImageView(new Image("gui/data/old/vaccine.png"));
-    public static ImageView supplyImg = new ImageView(new Image("gui/data/old/supply.png"));
-    public static VBox controlMenu;
+    public static ImageView heroImg;
+    public static ImageView zombieImg;
+    public static ImageView CollectibleImg;
+    public static ImageView emptyImg;
+    public static VBox vbox;
     public static ComboBox combobox;
     public static BorderPane border;
-
-
-
+    
     public static Scene startScreen(Stage primaryStage) {
         // main pane
         StackPane stackPane = new StackPane();
 
         //Labels initialization
         Label gameTitle = new Label("The Last of Us");
-        gameTitle.setFont(new Font("Arial", 100));
-        gameTitle.setAlignment(Pos.TOP_CENTER);
-        gameTitle.setMinSize(200, 200);
-        gameTitle.setStyle("-fx-text-fill: white;");
         Label characterSelectedName = new Label("Character selected:    ");
         Label characterSelectedType = new Label("Type:    ");
         Label characterSelectedHealth = new Label("Health:    ");
         Label characterSelectedAttackDamage = new Label("Attack Damage:    ");
         Label characterSelectedNumberOfMoves = new Label("Max number of moves:    ");
 
-        // Start Screen wallpaper
-        Image startScreenWallpaper = new Image("gui/data/load1.jpg");
-        ImageView startScreenWallpaperView = new ImageView(startScreenWallpaper);
-        startScreenWallpaperView.setFitHeight(1080);
-        startScreenWallpaperView.setFitWidth(1920);
-        stackPane.getChildren().add(startScreenWallpaperView);
-
-        // Add solid color text box for the text to be more visible
-//        Label textBox = new Label();
-//        textBox.setPrefSize(300, 150);
-//        textBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
-//        gameTitle.setTranslateY(-350);
-//        stackPane.getChildren().add(textBox);
-
-
         //adding labels to pane
         stackPane.getChildren().add(gameTitle);
         stackPane.setAlignment(gameTitle, Pos.TOP_CENTER);
         gameTitle.setTranslateY(200);
+
         stackPane.getChildren().add(characterSelectedName);
-        // Set font color to white
-        characterSelectedName.setStyle("-fx-text-fill: #b9b9b9;");
-        characterSelectedName.setFont(new Font("Comic Sans", 16));
-        characterSelectedName.setTranslateY(-320);
+        characterSelectedName.setTranslateY(-300);
         stackPane.setAlignment(characterSelectedName, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedType);
-        // Set font color to white
-        characterSelectedType.setStyle("-fx-text-fill: #b9b9b9;");
-        characterSelectedType.setFont(new Font("Comic Sans", 16));
-        characterSelectedType.setTranslateY(-290);
+        characterSelectedType.setTranslateY(-275);
         stackPane.setAlignment(characterSelectedType, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedHealth);
-        // Set font color to white
-        characterSelectedHealth.setStyle("-fx-text-fill: #b9b9b9;");
-        characterSelectedHealth.setFont(new Font("Comic Sans", 16));
-        characterSelectedHealth.setTranslateY(-260);
+        characterSelectedHealth.setTranslateY(-250);
         stackPane.setAlignment(characterSelectedHealth, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedAttackDamage);
-        // Set font color to white
-        characterSelectedAttackDamage.setStyle("-fx-text-fill: #b9b9b9;");
-        characterSelectedAttackDamage.setFont(new Font("Comic Sans", 16));
-        characterSelectedAttackDamage.setTranslateY(-230);
+        characterSelectedAttackDamage.setTranslateY(-225);
         stackPane.setAlignment(characterSelectedAttackDamage, Pos.BOTTOM_CENTER);
 
         stackPane.getChildren().add(characterSelectedNumberOfMoves);
-        // Set font color to white
-        characterSelectedNumberOfMoves.setStyle("-fx-text-fill: #b9b9b9;");
-        characterSelectedNumberOfMoves.setFont(new Font("Comic Sans", 16));
         characterSelectedNumberOfMoves.setTranslateY(-200);
         stackPane.setAlignment(characterSelectedNumberOfMoves, Pos.BOTTOM_CENTER);
 
@@ -240,6 +208,17 @@ public class GameView {
         startButton.setTranslateY(-50);
         stackPane.setAlignment(startButton, Pos.BOTTOM_CENTER);
 
+		//set ai button
+		Button setAIButton = new Button("Enable AI");
+		setAIButton.setOnAction(e -> {
+			Game.isAi = true;
+			System.out.println("AI enabled");
+		});
+		stackPane.getChildren().add(setAIButton);
+		setAIButton.setTranslateY(-150);
+		stackPane.setAlignment(setAIButton, Pos.BOTTOM_CENTER);
+
+
         // initializing scene
         Scene startScreen = new Scene(stackPane, 900, 800);
         primaryStage.setScene(startScreen);
@@ -279,7 +258,6 @@ public class GameView {
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
         return scene;
-
     }
 
     public static Node map(){
@@ -309,7 +287,6 @@ public class GameView {
                 });
             }
         }
-
         return grid;
     }
 
@@ -321,13 +298,18 @@ public class GameView {
         Button cureButtonBox = new Button("Cure");
         Button button5 = new Button("Special");
         Button button6 = new Button("Heroes");
-        endTurnButtonBox.setMinSize(100, 100);
-        attackButtonBox.setMinSize(100, 100);
-        cureButtonBox.setMinSize(100, 100);
+        button1.setMinSize(100, 100);
+        button2.setMinSize(100, 100);
+        button3.setMinSize(100, 100);
+        button4.setMinSize(100, 100);
         button5.setMinSize(100, 100);
         button6.setMinSize(100, 100);
+		button7.setMinSize(100, 100);
 
-        controlMenu.getChildren().addAll(endTurnButtonBox, attackButtonBox, cureButtonBox, button5, button6);
+        vbox.getChildren().addAll(button1, button2, button3, button4, button5, button6);
+		if (Game.isAi == true) {
+			vbox.getChildren().add(button7);
+		}
 
         endTurnButtonBox.setOnAction(e -> {
             System.out.println("Button 1 pressed");
@@ -359,7 +341,12 @@ public class GameView {
             controlMenu.getChildren().clear();
             controlMenu.getChildren().add(heroes(primaryStage));
         });
-        
+		button7.setOnAction(e -> {
+			System.out.println("Button 7 pressed");
+			Buttons.aiButton(primaryStage);
+		});
+
+
        
         border.setBottom(Buttons.alert);
 
@@ -402,6 +389,7 @@ public class GameView {
     public static void updatemap(){
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15 ; j++) {
+                emptyImg = new ImageView(new Image("gui/data/emptycell.png"));
                 if(Game.map[i][j].isVisible()){
                     if(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter() instanceof Zombie ){
                         zombieImg = new ImageView(new Image("gui/data/zombie.png"));

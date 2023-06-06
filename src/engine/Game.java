@@ -26,6 +26,7 @@ public class Game {
 	public static ArrayList<Hero> heroes = new ArrayList<Hero>();
 	public static ArrayList<Zombie> zombies = new ArrayList<Zombie>();
 	public static Cell[][] map = new Cell[15][15];
+	public static boolean isAi;
 
 	public static void loadHeroes(String filePath) throws IOException {
 		availableHeroes = new ArrayList<>();
