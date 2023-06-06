@@ -24,6 +24,7 @@ import model.characters.Direction;
 import model.characters.Hero;
 import model.characters.Medic;
 import model.characters.Zombie;
+import model.collectibles.Vaccine;
 import model.world.CharacterCell;
 import model.world.CollectibleCell;
 import model.world.TrapCell;
@@ -49,6 +50,8 @@ public class GameView {
     public static ImageView zombieImg = new ImageView(new Image("gui/data/zombie.png"));
     public static ImageView CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
     public static ImageView emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
+    public static ImageView vaccineImg = new ImageView(new Image("gui/data/old/vaccine.png"));
+    public static ImageView supplyImg = new ImageView(new Image("gui/data/old/supply.png"));
     public static VBox controlMenu;
     public static ComboBox combobox;
     public static BorderPane border;
@@ -219,15 +222,16 @@ public class GameView {
         updatemap();
 
         EventHandler<KeyEvent> keyListener = event -> {
-            if(event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN ||
-                    event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT) {
+            System.out.println("Key pressed: " + event.getCode());
+            if(event.getCode() == KeyCode.W || event.getCode() == KeyCode.S ||
+                    event.getCode() == KeyCode.D || event.getCode() == KeyCode.A) {
                 Direction d;
-                if (event.getCode() == KeyCode.UP) {
+                if (event.getCode() == KeyCode.W) {
                     System.out.println("Up key pressed");
                     d = Direction.UP;
-                } else if (event.getCode() == KeyCode.DOWN) {
+                } else if (event.getCode() == KeyCode.S) {
                     d = Direction.DOWN;
-                } else if (event.getCode() == KeyCode.RIGHT) {
+                } else if (event.getCode() == KeyCode.D) {
                     d = Direction.RIGHT;
                 } else {
                     d = Direction.LEFT;
@@ -281,17 +285,15 @@ public class GameView {
         Button endTurnButtonBox = new Button("End Turn");
         Button attackButtonBox = new Button("Attack");
         Button cureButtonBox = new Button("Cure");
-        Button moveButtonBox = new Button("Move");
         Button button5 = new Button("Special");
         Button button6 = new Button("Heroes");
         endTurnButtonBox.setMinSize(100, 100);
         attackButtonBox.setMinSize(100, 100);
         cureButtonBox.setMinSize(100, 100);
-        moveButtonBox.setMinSize(100, 100);
         button5.setMinSize(100, 100);
         button6.setMinSize(100, 100);
 
-        controlMenu.getChildren().addAll(endTurnButtonBox, attackButtonBox, cureButtonBox, moveButtonBox, button5, button6);
+        controlMenu.getChildren().addAll(endTurnButtonBox, attackButtonBox, cureButtonBox, button5, button6);
 
         endTurnButtonBox.setOnAction(e -> {
             System.out.println("Button 1 pressed");
@@ -308,11 +310,6 @@ public class GameView {
             System.out.println("Button 3 pressed");
             controlMenu.getChildren().clear();
     		controlMenu.getChildren().add(HUD.hudCure(primaryStage));
-        });
-        moveButtonBox.setOnAction(e -> {
-            System.out.println("Button 4 pressed");
-			controlMenu.getChildren().clear();
-			controlMenu.getChildren().add(moves(primaryStage));
         });
         button5.setOnAction(e -> {
             System.out.println("Button 5 pressed");
@@ -377,9 +374,16 @@ public class GameView {
                         cells[i][j].getChildren().add(zombieImg);
                     }
                     if(Game.map[i][j] instanceof CollectibleCell ){
-                        CollectibleImg = new ImageView(new Image("gui/data/collectible.png"));
-                        cells[i][j].getChildren().add(CollectibleImg);
+                        if(((CollectibleCell) Game.map[i][j]).getCollectible() instanceof Vaccine){
+                            vaccineImg = new ImageView(new Image("gui/data/old/vaccine.png"));
+                            cells[i][j].getChildren().add(vaccineImg);
+                        }
+                        else{
+                            supplyImg = new ImageView(new Image("gui/data/old/supply.png"));
+                            cells[i][j].getChildren().add(supplyImg);
+                        }
                     }
+
                     if(Game.map[i][j] instanceof TrapCell ||(Game.map[i][j] instanceof CharacterCell && ((CharacterCell) Game.map[i][j]).getCharacter()==null) ){
                         emptyImg = new ImageView(new Image("gui/data/emptyCell.png"));
                         cells[i][j].getChildren().add(emptyImg);
@@ -403,49 +407,5 @@ public class GameView {
         }
         border.setLeft(HUD.hudHero());
     }
-	public static Node moves(Stage primaryStage){
-		VBox directions = new VBox();
-		Button up = new Button("Up");
-		Button down = new Button("Down");
-		Button left = new Button("Left");
-		Button right = new Button("Right");
-		up.setMinSize(100, 100);
-		down.setMinSize(100, 100);
-		left.setMinSize(100, 100);
-		right.setMinSize(100, 100);
-		up.setOnAction(e -> {
-			System.out.println("Button 2 pressed");
-			Direction d = Direction.UP;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			controlMenu.getChildren().clear();
-			controlMenu.getChildren().add(hudBasic(primaryStage));
-		});
-		down.setOnAction(e -> {
-			System.out.println("Button 2 pressed");
-			Direction d = Direction.DOWN;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			controlMenu.getChildren().clear();
-			controlMenu.getChildren().add(hudBasic(primaryStage));
-		});
-		left.setOnAction(e -> {
-			System.out.println("Button 2 pressed");
-			Direction d = Direction.LEFT;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			controlMenu.getChildren().clear();
-			controlMenu.getChildren().add(hudBasic(primaryStage));
-		});
-		right.setOnAction(e -> {
-			System.out.println(current_hero.getName());
-			Direction d = Direction.RIGHT;
-			Buttons.moveButton(current_hero, d, primaryStage);
-			updatemap();
-			controlMenu.getChildren().clear();
-			controlMenu.getChildren().add(hudBasic(primaryStage));
-		});
-		directions.getChildren().addAll(up,down,left,right);
-		return directions;
-	}
+
 }
