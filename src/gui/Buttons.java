@@ -10,6 +10,8 @@ import engine.Game;
 import model.characters.Hero;
 import model.characters.Direction;
 import model.characters.Zombie;
+import model.characters.Medic;
+import model.characters.Explorer;
 
 import model.world.Cell;
 import model.world.CollectibleCell;
@@ -17,6 +19,7 @@ import model.world.TrapCell;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 import exceptions.InvalidTargetException;
@@ -182,6 +185,58 @@ public class Buttons {
 			validLocs.add(p);
 		}
 		
+		// check if enough action points
+		if (h.getActionsAvailable() < 1){
+			endTurnButton(primaryStage);
+			GameView.vbox.getChildren().clear();
+			GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+			GameView.updatemap();
+			return;
+		}
+
+		// try to use special
+		if (h.getSupplyInventory().size() > 0){
+			if (h instanceof Medic){
+				for (Hero h1 : Game.heroes){
+					Point h1Loc = h1.getLocation();
+					if (!validLocs.contains(h1Loc))	continue;
+					h.setTarget(h1);
+					try{
+						h.useSpecial();
+						System.out.println("used special");
+						GameView.vbox.getChildren().clear();
+						GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+						GameView.updatemap();
+						return;
+					}catch(Exception e){
+						System.out.println(e.getMessage());
+					}
+				}
+			}if (h instanceof Explorer){
+				try{
+					h.useSpecial();
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}
+			}else{
+				for (Zombie z : Game.zombies){
+					Point zLoc = z.getLocation();
+					if (!validLocs.contains(zLoc))	continue;
+					h.setTarget(z);
+					try{
+						h.useSpecial();
+						System.out.println("used special");
+						GameView.vbox.getChildren().clear();
+						GameView.vbox.getChildren().add(GameView.hudBasic(primaryStage));
+						GameView.updatemap();
+						return;
+					}catch(Exception e){
+						System.out.println(e.getMessage());
+					}
+				}
+			}
+		}
+
 		// try to cure
 		if (h.getVaccineInventory().size() > 0){
 			for (Zombie z : Game.zombies){
@@ -222,16 +277,19 @@ public class Buttons {
 		if (h.getActionsAvailable() > 0){
 			// get all directions
 			ArrayList<Direction> allDirs = new ArrayList<Direction>();
-			allDirs.add(Direction.UP);
-			allDirs.add(Direction.DOWN);
 			allDirs.add(Direction.LEFT);
 			allDirs.add(Direction.RIGHT);
+			allDirs.add(Direction.UP);
+			allDirs.add(Direction.DOWN);
 
 			for (Direction d : allDirs){
 				Point newP = convertFromDirectionToPoint(d);
 				Cell c = Game.map[newP.x+1][newP.y+1];
+				System.out.println(newP.x + " " + newP.y);
+
 				if (c instanceof CollectibleCell){
 					// if it is a collectible cell then move to it
+					System.out.println("collectible");
 					try{
 						h.move(d);
 						GameView.updatemap();
@@ -242,24 +300,29 @@ public class Buttons {
 					}
 				}else if (c instanceof TrapCell){
 					// if it is a trap cell then remove it from the list of directions to not go to it
+					System.out.println("trap");
 					allDirs.remove(d);
 					continue;
 				}
 			}
 			// failed to move then go to any direction that is not a trap
 			if (allDirs.size() != 0){
-				for (Direction d : allDirs){
-					try{
-						h.move(d);
-						GameView.updatemap();
-						return;
-					}catch(Exception e){
-						System.out.println(e.getMessage());
-						continue;
-					}
+				// pick a random direction from the list of directions
+				Random rand = new Random();
+				int idx = rand.nextInt(allDirs.size());
+				Direction d = allDirs.get(idx);
+				try{
+					System.out.println("random");
+					h.move(d);
+					GameView.updatemap();
+					return;
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+					return;
 				}
 			}else{
 				try{
+					System.out.println("up");
 					h.move(Direction.UP);
 					GameView.updatemap();
 					return;
